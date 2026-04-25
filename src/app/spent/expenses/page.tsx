@@ -54,23 +54,17 @@ export default function Page() {
     {
       header: "Valor",
       accessorKey: "amount",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>R$ {parseFloat(row.original.amount).toFixed(2)}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>R$ {parseFloat(row.original.amount).toFixed(2)}</span>
     },
     {
       header: "Classificação",
       accessorKey: "classification",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{row.original.classification || '-'}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{row.original.classification || "-"}</span>
     },
     {
       header: "Descrição",
       accessorKey: "description",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{row.original.description || '-'}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{row.original.description || "-"}</span>
     },
     {
       header: "Justificativa",
@@ -79,30 +73,22 @@ export default function Page() {
     {
       header: "Requer Reembolso",
       accessorKey: "requires_reimbursement",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{row.original.requires_reimbursement ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{row.original.requires_reimbursement ? "Sim" : "Não"}</span>
     },
     {
       header: "Aplica Todos Produtos",
       accessorKey: "applies_all_products",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{row.original.applies_all_products ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{row.original.applies_all_products ? "Sim" : "Não"}</span>
     },
     {
       header: "Aplica Todas Máquinas",
       accessorKey: "applies_all_machines",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{row.original.applies_all_machines ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{row.original.applies_all_machines ? "Sim" : "Não"}</span>
     },
     {
       header: "Data da Despesa",
       accessorKey: "expense_date",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{new Date(row.original.expense_date).toLocaleDateString()}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{new Date(row.original.expense_date).toLocaleDateString()}</span>
     },
     {
       header: "Ator",
@@ -110,7 +96,7 @@ export default function Page() {
       cell: ({ row }: { row: Row<Expense> }) => {
         const actor = row.original.actor;
         if (!actor) return <span>-</span>;
-        
+
         if (actor.first_name && actor.last_name) {
           return <span>{`${actor.first_name} ${actor.last_name}`}</span>;
         }
@@ -123,16 +109,12 @@ export default function Page() {
     {
       header: "Data de Criação",
       accessorKey: "created_at",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{new Date(row.original.created_at).toLocaleDateString()}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{new Date(row.original.created_at).toLocaleDateString()}</span>
     },
     {
       header: "Última Atualização",
       accessorKey: "updated_at",
-      cell: ({ row }: { row: Row<Expense> }) => (
-        <span>{new Date(row.original.updated_at).toLocaleDateString()}</span>
-      )
+      cell: ({ row }: { row: Row<Expense> }) => <span>{new Date(row.original.updated_at).toLocaleDateString()}</span>
     },
     {
       id: "actions",
@@ -163,7 +145,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="Expense" nameModal="despesa" rowData={row.original} idRowData={row.original.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="Expense"
+                  nameModal="despesa"
+                  rowData={row.original}
+                  idRowData={row.original.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -181,7 +169,7 @@ export default function Page() {
   ];
 
   const arrayFilterFieldsByAcessorKey = columns.reduce((acc: TableColumn<Expense>[], column) => {
-    if ('accessorKey' in column && column.accessorKey && 'header' in column && column.header) {
+    if ("accessorKey" in column && column.accessorKey && "header" in column && column.header) {
       acc.push({ header: String(column.header), accessorKey: String(column.accessorKey) });
     }
     return acc;
@@ -191,7 +179,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -199,7 +187,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Despesas" />
+          <Header title="Controle de gastos" />
           <DynamicTable<Expense>
             isLoadingSpinner={isLoading}
             columns={columns}
@@ -216,4 +204,3 @@ export default function Page() {
     </>
   );
 }
-

@@ -61,9 +61,7 @@ export default function Page() {
     {
       header: "Data de Emissão",
       accessorKey: "issue_date",
-      cell: ({ row }: { row: Row<Invoice> }) => (
-        <span>{new Date(row.original.issue_date).toLocaleDateString()}</span>
-      )
+      cell: ({ row }: { row: Row<Invoice> }) => <span>{new Date(row.original.issue_date).toLocaleDateString()}</span>
     },
     {
       header: "Destinatário",
@@ -72,16 +70,12 @@ export default function Page() {
     {
       header: "Pedido",
       accessorKey: "order_id",
-      cell: ({ row }: { row: Row<Invoice> }) => (
-        <span>#{row.original.order_id}</span>
-      )
+      cell: ({ row }: { row: Row<Invoice> }) => <span>#{row.original.order_id}</span>
     },
     {
       header: "Valor",
       accessorKey: "order.final_price",
-      cell: ({ row }: { row: Row<Invoice> }) => (
-        <span>R$ {row.original.order.final_price.toFixed(2)}</span>
-      )
+      cell: ({ row }: { row: Row<Invoice> }) => <span>R$ {row.original.order.final_price.toFixed(2)}</span>
     },
     {
       id: "actions",
@@ -112,7 +106,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="Invoice" nameModal="nota fiscal" rowData={row.original} idRowData={row.original.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="Invoice"
+                  nameModal="nota fiscal"
+                  rowData={row.original}
+                  idRowData={row.original.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -130,7 +130,7 @@ export default function Page() {
   ];
 
   const arrayFilterFieldsByAcessorKey = columns.reduce((acc: TableColumn<Invoice>[], column) => {
-    if ('accessorKey' in column && column.accessorKey && 'header' in column && column.header) {
+    if ("accessorKey" in column && column.accessorKey && "header" in column && column.header) {
       acc.push({ header: String(column.header), accessorKey: String(column.accessorKey) });
     }
     return acc;
@@ -140,7 +140,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -148,7 +148,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Notas Fiscais" />
+          <Header title="Emissão Nota Fiscal" />
           <DynamicTable<Invoice>
             isLoadingSpinner={isLoading}
             columns={columns}
@@ -160,4 +160,4 @@ export default function Page() {
       </div>
     </>
   );
-} 
+}

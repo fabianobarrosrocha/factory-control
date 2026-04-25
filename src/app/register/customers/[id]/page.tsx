@@ -184,7 +184,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             data: customer.deliver ? "Sim" : "Não"
                           },
                           {
-                            title: "Pontalti?",
+                            title: "Marca Pontalti?",
                             data: customer.pontalti ? "Sim" : "Não"
                           },
                           {

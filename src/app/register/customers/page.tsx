@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Customer } from "@/types/customer.types";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
+import { formatCellPhone, formatCpfCnpj, formatPhone } from "@/utils/formatters";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -50,42 +51,50 @@ export default function Page() {
     {
       header: "Nome",
       accessorKey: "name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Status",
       accessorKey: "status",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Num. telefone",
       accessorKey: "phone",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatPhone((row.original as Customer).phone)}</span>
     },
     {
       header: "Num. celular",
       accessorKey: "cel_number",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatCellPhone((row.original as Customer).cel_number)}</span>
     },
     {
       header: "Email",
       accessorKey: "email",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Loja",
       accessorKey: "store_name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Cpf/Cnpj",
       accessorKey: "cpf",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => {
+        const customer = row.original as Customer;
+        return <span>{formatCpfCnpj(customer.cpf, customer.cnpj)}</span>;
+      }
     },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
+        const customer = row.original as Customer;
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -99,7 +108,7 @@ export default function Page() {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => router.push(`/register/customers/${row.original.id}`)}
+                onClick={() => router.push(`/register/customers/${customer.id}`)}
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
@@ -111,7 +120,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="Customer" nameModal="cliente" rowData={row.original} idRowData={row.original.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="Customer"
+                  nameModal="cliente"
+                  rowData={customer}
+                  idRowData={customer.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -119,7 +134,7 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="DELETE" typeRegister="Customer" nameModal="cliente" idRowData={row.original.id} />
+                <Modal typeModal="DELETE" typeRegister="Customer" nameModal="cliente" idRowData={customer.id} />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -139,7 +154,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">

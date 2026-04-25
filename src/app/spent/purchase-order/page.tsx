@@ -35,7 +35,7 @@ export default function Page() {
         const resp = await axios.get("/api/purchase-forecast");
         console.log(resp.data);
         // A API retorna um objeto único, então vamos colocá-lo em um array
-        if (resp.data && typeof resp.data === 'object') {
+        if (resp.data && typeof resp.data === "object") {
           setData([resp.data]);
         } else {
           setData([]);
@@ -78,9 +78,7 @@ export default function Page() {
     {
       header: "Controles de Produção",
       accessorKey: "production_controls",
-      cell: ({ row }: { row: Row<PurchaseForecastSummary> }) => (
-        <span>{row.original.production_controls.length}</span>
-      )
+      cell: ({ row }: { row: Row<PurchaseForecastSummary> }) => <span>{row.original.production_controls.length}</span>
     },
     {
       id: "actions",
@@ -97,10 +95,10 @@ export default function Page() {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>Ações</DropdownMenuLabel>
-              <DropdownMenuItem 
+              <DropdownMenuItem
                 onClick={() => {
                   // Salvar dados no localStorage antes de navegar
-                  localStorage.setItem('purchase-forecast-data', JSON.stringify(forecast));
+                  localStorage.setItem("purchase-forecast-data", JSON.stringify(forecast));
                   router.push(`/spent/purchase-order/${row.index + 1}`);
                 }}
               >
@@ -115,7 +113,7 @@ export default function Page() {
   ];
 
   const arrayFilterFieldsByAcessorKey = columns.reduce((acc: TableColumn<PurchaseForecastSummary>[], column) => {
-    if ('accessorKey' in column && column.accessorKey && 'header' in column && column.header) {
+    if ("accessorKey" in column && column.accessorKey && "header" in column && column.header) {
       acc.push({ header: String(column.header), accessorKey: String(column.accessorKey) });
     }
     return acc;
@@ -125,7 +123,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -133,7 +131,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Previsão e Emissão de Ordem de Compra" />
+          <Header title="Previsão e Emissão de ordem de compra" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}
@@ -141,7 +139,7 @@ export default function Page() {
             filterFields={arrayFilterFieldsByAcessorKey}
             onRowClick={(rowData, rowIndex) => {
               // Salvar dados no localStorage e navegar
-              localStorage.setItem('purchase-forecast-data', JSON.stringify(rowData));
+              localStorage.setItem("purchase-forecast-data", JSON.stringify(rowData));
               router.push(`/spent/purchase-order/${rowIndex + 1}`);
             }}
           />

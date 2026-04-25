@@ -238,7 +238,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
         name="pontalti"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="pontalti" label="É da Pontalti?" helpText={help.pontalti} />
+            <FormLabelWithHelp htmlFor="pontalti" label="Marca Pontalti?" helpText={help.pontalti} />
             <FormControl>
               <RadioGroup onValueChange={field.onChange}>
                 <FormItem className="flex items-center space-x-3 space-y-0">

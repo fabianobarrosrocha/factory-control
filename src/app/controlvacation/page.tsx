@@ -17,9 +17,9 @@ function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Controle de Férias" />
+          <Header title="Controle de ferias" />
 
-          {session.user.isAdmin && <VacationPage/> }
+          {session.user.isAdmin && <VacationPage />}
         </main>
       </div>
     );

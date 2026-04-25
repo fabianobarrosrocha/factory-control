@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Employee } from "@/types/employee.types";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
+import { formatCellPhone, formatCpf, formatPhone } from "@/utils/formatters";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,27 +49,30 @@ export default function Page() {
     {
       header: "Nome",
       accessorKey: "name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Cpf",
       accessorKey: "cpf",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatCpf((row.original as Employee).cpf)}</span>
     },
     {
       header: "Num. telefone",
       accessorKey: "phone",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatPhone((row.original as Employee).phone)}</span>
     },
     {
       header: "Num. celular",
       accessorKey: "cel_number",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatCellPhone((row.original as Employee).cel_number)}</span>
     },
     {
       header: "Salário",
       accessorKey: "salary",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Admissão",
@@ -76,20 +80,25 @@ export default function Page() {
       sortable: true,
       cell: ({ row }: { row: Row<DataRow> }) => {
         const date = new Date(row.getValue("admission"));
-        return <>{date.toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })}</>;
-      },
+        return (
+          <>
+            {date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
+          </>
+        );
+      }
     },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
-        
+        const employee = row.original as Employee;
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -103,7 +112,7 @@ export default function Page() {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => router.push(`/register/employees/${row.original.id}`)}
+                onClick={() => router.push(`/register/employees/${employee.id}`)}
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
@@ -119,8 +128,8 @@ export default function Page() {
                   typeModal="EDIT"
                   typeRegister="Employee"
                   nameModal="funcionario"
-                  rowData={row.original}
-                  idRowData={row.original.id}
+                  rowData={employee}
+                  idRowData={employee.id}
                 />
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -133,8 +142,8 @@ export default function Page() {
                   typeModal="DELETE"
                   typeRegister="Employee"
                   nameModal="funcionario"
-                  rowData={row.original}
-                  idRowData={row.original.id}
+                  rowData={employee}
+                  idRowData={employee.id}
                 />
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -155,7 +164,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -163,7 +172,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Empregados" />
+          <Header title="Funcionários" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}

@@ -90,7 +90,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="ProductionControl" nameModal="controle de produção" rowData={pc} idRowData={pc.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="ProductionControl"
+                  nameModal="controle de produção"
+                  rowData={pc}
+                  idRowData={pc.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -98,7 +104,12 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="DELETE" typeRegister="ProductionControl" nameModal="controle de produção" idRowData={pc.id} />
+                <Modal
+                  typeModal="DELETE"
+                  typeRegister="ProductionControl"
+                  nameModal="controle de produção"
+                  idRowData={pc.id}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -118,7 +129,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -126,7 +137,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Lista a produzir" />
+          <Header title="Lista á produzir" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns as any}
@@ -139,5 +150,3 @@ export default function Page() {
     </>
   );
 }
-
-

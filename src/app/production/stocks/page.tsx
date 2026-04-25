@@ -126,7 +126,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -134,7 +134,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Estoques" />
+          <Header title="Estoque" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns as any}
@@ -147,5 +147,3 @@ export default function Page() {
     </>
   );
 }
-
-

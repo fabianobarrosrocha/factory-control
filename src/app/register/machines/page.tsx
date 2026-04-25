@@ -48,17 +48,17 @@ export default function Page() {
     {
       header: "Modelo",
       accessorKey: "model",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Número da máquina",
       accessorKey: "machine_number",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Status",
       accessorKey: "status",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Localização",
@@ -163,7 +163,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -171,7 +171,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Maquinas"/>
+          <Header title="Máquinas" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}

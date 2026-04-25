@@ -17,7 +17,7 @@ function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Controle de Horários" />
+          <Header title="Ponto Online" />
           {session.user.isAdmin ? <Admin /> : <Employee idUser={session.user.idToken} />}
         </main>
       </div>

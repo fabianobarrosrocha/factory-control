@@ -173,7 +173,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Devoluções" />
+          <Header title="Devolucões" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}

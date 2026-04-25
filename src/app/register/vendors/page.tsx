@@ -13,6 +13,7 @@ import { Vendor } from "@/types/vendor.types";
 import { Button } from "@/components/ui/button";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
+import { formatCellPhone, formatCnpj, formatPhone } from "@/utils/formatters";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -48,37 +49,42 @@ export default function Page() {
     {
       header: "Nome",
       accessorKey: "name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Nome da loja",
       accessorKey: "store_name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Num. telefone",
       accessorKey: "phone",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatPhone((row.original as Vendor).phone)}</span>
     },
     {
       header: "Num. celular",
       accessorKey: "cel_number",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatCellPhone((row.original as Vendor).cel_number)}</span>
     },
     {
       header: "Cnpj",
       accessorKey: "cnpj",
       sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => <span>{formatCnpj((row.original as Vendor).cnpj)}</span>
     },
     {
       header: "Entrega",
       accessorKey: "deliver",
-      sortable: true,
+      sortable: true
     },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
+        const vendor = row.original as Vendor;
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -92,7 +98,7 @@ export default function Page() {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => router.push(`/register/vendors/${row.original.id}`)}
+                onClick={() => router.push(`/register/vendors/${vendor.id}`)}
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
@@ -108,8 +114,8 @@ export default function Page() {
                   typeModal="EDIT"
                   typeRegister="Vendor"
                   nameModal="fornecedor"
-                  rowData={row.original}
-                  idRowData={row.original.id}
+                  rowData={vendor}
+                  idRowData={vendor.id}
                 />
               </DropdownMenuItem>
               <DropdownMenuItem
@@ -122,8 +128,8 @@ export default function Page() {
                   typeModal="DELETE"
                   typeRegister="Vendor"
                   nameModal="fornecedor"
-                  rowData={row.original}
-                  idRowData={row.original.id}
+                  rowData={vendor}
+                  idRowData={vendor.id}
                 />
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -144,7 +150,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -152,7 +158,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Fornecedores"/>
+          <Header title="Fornecedores" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}

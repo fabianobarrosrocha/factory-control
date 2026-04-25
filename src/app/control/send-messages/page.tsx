@@ -55,23 +55,17 @@ export default function Page() {
     {
       header: "WhatsApp",
       accessorKey: "can_whatsapp",
-      cell: ({ row }: { row: Row<MessageConfig> }) => (
-        <span>{row.original.can_whatsapp ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<MessageConfig> }) => <span>{row.original.can_whatsapp ? "Sim" : "Não"}</span>
     },
     {
       header: "Email",
       accessorKey: "can_email",
-      cell: ({ row }: { row: Row<MessageConfig> }) => (
-        <span>{row.original.can_email ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<MessageConfig> }) => <span>{row.original.can_email ? "Sim" : "Não"}</span>
     },
     {
       header: "SMS",
       accessorKey: "can_sms",
-      cell: ({ row }: { row: Row<MessageConfig> }) => (
-        <span>{row.original.can_sms ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<MessageConfig> }) => <span>{row.original.can_sms ? "Sim" : "Não"}</span>
     },
     {
       header: "Tipo de Gatilho",
@@ -101,9 +95,7 @@ export default function Page() {
     {
       header: "Ativo",
       accessorKey: "is_active",
-      cell: ({ row }: { row: Row<MessageConfig> }) => (
-        <span>{row.original.is_active ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<MessageConfig> }) => <span>{row.original.is_active ? "Sim" : "Não"}</span>
     },
     {
       header: "Data de criação",
@@ -141,7 +133,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="MessageConfig" nameModal="configuração" rowData={row.original} idRowData={Number(row.original.id)} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="MessageConfig"
+                  nameModal="configuração"
+                  rowData={row.original}
+                  idRowData={Number(row.original.id)}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -149,7 +147,12 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="DELETE" typeRegister="MessageConfig" nameModal="configuração" idRowData={Number(row.original.id)} />
+                <Modal
+                  typeModal="DELETE"
+                  typeRegister="MessageConfig"
+                  nameModal="configuração"
+                  idRowData={Number(row.original.id)}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -159,7 +162,7 @@ export default function Page() {
   ];
 
   const arrayFilterFieldsByAcessorKey = columns.reduce((acc: TableColumn<MessageConfig>[], column) => {
-    if ('accessorKey' in column && column.accessorKey && 'header' in column && column.header) {
+    if ("accessorKey" in column && column.accessorKey && "header" in column && column.header) {
       acc.push({ header: String(column.header), accessorKey: String(column.accessorKey) });
     }
     return acc;
@@ -169,7 +172,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -177,7 +180,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Configurações de Mensagens" />
+          <Header title="Envio de Mensagens" />
           <DynamicTable<MessageConfig>
             isLoadingSpinner={isLoading}
             columns={columns}

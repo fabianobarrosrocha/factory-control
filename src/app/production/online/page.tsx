@@ -51,7 +51,7 @@ export default function Page() {
       toast({
         variant: "destructive",
         title: "Erro ao carregar dados",
-        description: "Não foi possível carregar os dados do dashboard.",
+        description: "Não foi possível carregar os dados do dashboard."
       });
     } finally {
       setIsLoading(false);
@@ -88,10 +88,8 @@ export default function Page() {
       return {
         ...prev,
         locations: prev.locations.map((loc) =>
-          loc.id === id
-            ? { ...loc, position_x: position.x, position_y: position.y }
-            : loc
-        ),
+          loc.id === id ? { ...loc, position_x: position.x, position_y: position.y } : loc
+        )
       };
     });
 
@@ -111,10 +109,8 @@ export default function Page() {
       return {
         ...prev,
         locations: prev.locations.map((loc) =>
-          loc.id === id
-            ? { ...loc, width: size.width, height: size.height }
-            : loc
-        ),
+          loc.id === id ? { ...loc, width: size.width, height: size.height } : loc
+        )
       };
     });
 
@@ -133,9 +129,7 @@ export default function Page() {
       if (!prev) return prev;
       return {
         ...prev,
-        locations: prev.locations.map((loc) =>
-          loc.id === id ? { ...loc, color } : loc
-        ),
+        locations: prev.locations.map((loc) => (loc.id === id ? { ...loc, color } : loc))
       };
     });
 
@@ -159,7 +153,7 @@ export default function Page() {
         const position = pendingPositions.get(id);
         const size = pendingSizes.get(id);
         const color = pendingColors.get(id);
-        const location = data?.locations.find(l => l.id === id);
+        const location = data?.locations.find((l) => l.id === id);
 
         return {
           id,
@@ -167,7 +161,7 @@ export default function Page() {
           position_y: position?.y ?? location?.position_y ?? 0,
           width: size?.width ?? location?.width ?? 100,
           height: size?.height ?? location?.height ?? 100,
-          color: color ?? location?.color,
+          color: color ?? location?.color
         };
       });
 
@@ -175,7 +169,7 @@ export default function Page() {
 
       toast({
         title: "Alterações salvas",
-        description: "As alterações foram salvas com sucesso.",
+        description: "As alterações foram salvas com sucesso."
       });
 
       setPendingPositions(new Map());
@@ -187,7 +181,7 @@ export default function Page() {
       toast({
         variant: "destructive",
         title: "Erro ao salvar",
-        description: "Não foi possível salvar as alterações.",
+        description: "Não foi possível salvar as alterações."
       });
     } finally {
       setIsSaving(false);
@@ -231,7 +225,7 @@ export default function Page() {
       startX: e.clientX,
       startY: e.clientY,
       startOffsetX: panOffset.x,
-      startOffsetY: panOffset.y,
+      startOffsetY: panOffset.y
     };
     setIsPanning(true);
 
@@ -243,7 +237,7 @@ export default function Page() {
 
       setPanOffset({
         x: panStateRef.current.startOffsetX + deltaX,
-        y: panStateRef.current.startOffsetY + deltaY,
+        y: panStateRef.current.startOffsetY + deltaY
       });
     };
 
@@ -295,7 +289,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout flex flex-col overflow-hidden">
-          <Header title="Produção Online" />
+          <Header title="Online" />
 
           {/* Toolbar */}
           <div className="flex items-center gap-2 p-3 border-b bg-white flex-shrink-0">
@@ -322,23 +316,11 @@ export default function Page() {
             <div className="w-px h-6 bg-gray-300 mx-2" />
 
             {/* Zoom Controls */}
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleZoomOut}
-              disabled={scale <= 0.3}
-            >
+            <Button variant="outline" size="sm" onClick={handleZoomOut} disabled={scale <= 0.3}>
               <ZoomOut className="w-4 h-4" />
             </Button>
-            <span className="text-sm text-gray-600 w-16 text-center">
-              {Math.round(scale * 100)}%
-            </span>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleZoomIn}
-              disabled={scale >= 2}
-            >
+            <span className="text-sm text-gray-600 w-16 text-center">{Math.round(scale * 100)}%</span>
+            <Button variant="outline" size="sm" onClick={handleZoomIn} disabled={scale >= 2}>
               <ZoomIn className="w-4 h-4" />
             </Button>
             <Button variant="outline" size="sm" onClick={handleResetZoom}>
@@ -361,16 +343,8 @@ export default function Page() {
             {/* Save Button (only in edit mode) */}
             {isEditMode && (
               <>
-                {hasChanges && (
-                  <span className="text-sm text-amber-600">
-                    Alterações não salvas
-                  </span>
-                )}
-                <Button
-                  onClick={handleSavePositions}
-                  disabled={!hasChanges || isSaving}
-                  size="sm"
-                >
+                {hasChanges && <span className="text-sm text-amber-600">Alterações não salvas</span>}
+                <Button onClick={handleSavePositions} disabled={!hasChanges || isSaving} size="sm">
                   {isSaving ? (
                     <>
                       <Spinner visible={true} color="default" />
@@ -401,7 +375,7 @@ export default function Page() {
                 width: CANVAS_WIDTH,
                 height: CANVAS_HEIGHT,
                 transform: `scale(${scale}) translate(${panOffset.x / scale}px, ${panOffset.y / scale}px)`,
-                transformOrigin: "center center",
+                transformOrigin: "center center"
               }}
             >
               {/* Grid Background */}
@@ -410,7 +384,7 @@ export default function Page() {
                 style={{
                   backgroundImage:
                     "linear-gradient(#ccc 1px, transparent 1px), linear-gradient(90deg, #ccc 1px, transparent 1px)",
-                  backgroundSize: "50px 50px",
+                  backgroundSize: "50px 50px"
                 }}
               />
 
@@ -435,9 +409,7 @@ export default function Page() {
                 <div className="absolute inset-0 flex items-center justify-center">
                   <div className="text-center text-gray-500">
                     <p className="text-lg font-medium">Nenhuma localização cadastrada</p>
-                    <p className="text-sm">
-                      Cadastre localizações em Cadastro &gt; Localizações
-                    </p>
+                    <p className="text-sm">Cadastre localizações em Cadastro &gt; Localizações</p>
                   </div>
                 </div>
               )}

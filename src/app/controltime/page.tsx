@@ -17,9 +17,9 @@ function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Horário Padrão da Fábrica" />
+          <Header title="Horarios Padrao" />
 
-          {session.user.isAdmin && <TimeConfigTable/> }
+          {session.user.isAdmin && <TimeConfigTable />}
         </main>
       </div>
     );

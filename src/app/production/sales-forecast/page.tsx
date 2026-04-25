@@ -49,13 +49,28 @@ export default function Page() {
 
   const columns = [
     { header: "ID", accessorKey: "id", sortable: true },
-    { header: "Cliente", accessorKey: "customer.name", sortable: true, cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).customer?.name ?? "-" },
-    { header: "Produto", accessorKey: "product.name", sortable: true, cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).product?.name ?? "-" },
+    {
+      header: "Cliente",
+      accessorKey: "customer.name",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).customer?.name ?? "-"
+    },
+    {
+      header: "Produto",
+      accessorKey: "product.name",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).product?.name ?? "-"
+    },
     { header: "Quantidade", accessorKey: "quantity", sortable: true },
-    { header: "Status", accessorKey: "status", sortable: true, cell: ({ row }: { row: Row<DataRow> }) => {
-      const sf = row.original as SalesForecast;
-      return SalesForecastStatusLabel[sf.status as keyof typeof SalesForecastStatusLabel] || String(sf.status);
-    } },
+    {
+      header: "Status",
+      accessorKey: "status",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => {
+        const sf = row.original as SalesForecast;
+        return SalesForecastStatusLabel[sf.status as keyof typeof SalesForecastStatusLabel] || String(sf.status);
+      }
+    },
     // coluna de data removida: generated_at não existe mais
     {
       id: "actions",
@@ -87,7 +102,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="SalesForecast" nameModal="previsão de venda" rowData={sf} idRowData={sf.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="SalesForecast"
+                  nameModal="previsão de venda"
+                  rowData={sf}
+                  idRowData={sf.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -95,7 +116,12 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="DELETE" typeRegister="SalesForecast" nameModal="previsão de venda" idRowData={sf.id} />
+                <Modal
+                  typeModal="DELETE"
+                  typeRegister="SalesForecast"
+                  nameModal="previsão de venda"
+                  idRowData={sf.id}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -115,7 +141,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -123,7 +149,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Previsões de Venda" />
+          <Header title="Previsão de venda" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns as any}
@@ -136,5 +162,3 @@ export default function Page() {
     </>
   );
 }
-
-

@@ -48,17 +48,17 @@ export default function Page() {
     {
       header: "Nome do processo",
       accessorKey: "process_name",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Status",
       accessorKey: "status",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Qtd. Trabalhadores",
       accessorKey: "workers",
-      sortable: true,
+      sortable: true
     },
     {
       id: "actions",
@@ -129,7 +129,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -137,7 +137,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Processos"/>
+          <Header title="Processo" />
           <DynamicTable
             isLoadingSpinner={isLoading}
             columns={columns}

@@ -32,7 +32,7 @@ export default function Page() {
     const fetchData = async () => {
       try {
         const resp = await axios.get("/api/users");
-        console.log(resp)
+        console.log(resp);
         setData(resp.data);
       } catch (err) {
         console.error(err);
@@ -58,9 +58,7 @@ export default function Page() {
     {
       header: "Admin",
       accessorKey: "isAdmin",
-      cell: ({ row }: { row: Row<User> }) => (
-        <span>{row.original.isAdmin ? "Sim" : "Não"}</span>
-      )
+      cell: ({ row }: { row: Row<User> }) => <span>{row.original.isAdmin ? "Sim" : "Não"}</span>
     },
     {
       header: "Data de criação",
@@ -99,7 +97,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="User" nameModal="usuário" rowData={row.original} idRowData={row.original.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="User"
+                  nameModal="usuário"
+                  rowData={row.original}
+                  idRowData={row.original.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -117,7 +121,7 @@ export default function Page() {
   ];
 
   const arrayFilterFieldsByAcessorKey = columns.reduce((acc: TableColumn<User>[], column) => {
-    if ('accessorKey' in column && column.accessorKey && 'header' in column && column.header) {
+    if ("accessorKey" in column && column.accessorKey && "header" in column && column.header) {
       acc.push({ header: String(column.header), accessorKey: String(column.accessorKey) });
     }
     return acc;
@@ -127,7 +131,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">
@@ -135,7 +139,7 @@ export default function Page() {
           <Aside />
         </nav>
         <main className="main-layout">
-          <Header title="Usuários" />
+          <Header title="Usuários da sistema" />
           <DynamicTable<User>
             isLoadingSpinner={isLoading}
             columns={columns}
