@@ -5,6 +5,7 @@ import Image from "next/image";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { login } from "../../../../actions/login";
 import { Button } from "@/components/ui/button";
 import Spinner from "@/components/Spinner";
@@ -39,7 +40,7 @@ const Login: React.FC = () => {
       try {
         login(values);
       } catch (err) {
-        console.error('Login error:', err);
+        console.error("Login error:", err);
       } finally {
         setIsLoading(false);
       }
@@ -50,10 +51,14 @@ const Login: React.FC = () => {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
-      <div className={`max-w-screen bg-white min-h-screen flex items-center justify-center ${isLoading ? "opacity-50" : ""}`}>
+      <div
+        className={`max-w-screen bg-white min-h-screen flex items-center justify-center ${
+          isLoading ? "opacity-50" : ""
+        }`}
+      >
         <div className="w-1/4 flex flex-col gap-5 rounded border border-[#e2e8f0] p-7 shadow-md">
           <div className="w-full flex items-center justify-center">
             <Image src="/images/logo_pontalti_default.png" width={45} height={45} alt="Logo Pontalti" />
@@ -86,7 +91,7 @@ const Login: React.FC = () => {
                       </Button>
                     </div>
                     <FormControl>
-                      <Input disabled={isPending} type="password" {...field} />
+                      <PasswordInput disabled={isPending} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

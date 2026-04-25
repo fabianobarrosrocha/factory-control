@@ -9,7 +9,7 @@ import { Row } from "@tanstack/react-table";
 import Modal from "@/components/Modal/Modal";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Order } from "@/types/order.types";
+import { ProductReturn } from "@/types/product_return.types";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
 import {
@@ -24,14 +24,14 @@ import {
 import Header from "@/components/Header";
 
 export default function Page() {
-  const [data, setData] = useState<Order[]>([]);
+  const [data, setData] = useState<ProductReturn[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const resp = await axios.get("/api/product-returns");
-        console.log(resp)
+        console.log(resp);
         setData(resp.data);
       } catch (err) {
         console.error(err);
@@ -49,12 +49,12 @@ export default function Page() {
     {
       header: "Id",
       accessorKey: "id",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Id do pedido",
       accessorKey: "order.id",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Data",
@@ -62,34 +62,45 @@ export default function Page() {
       sortable: true,
       cell: ({ row }: { row: Row<DataRow> }) => {
         const date = new Date(row.getValue("date"));
-        return <>{date.toLocaleDateString('pt-BR', {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-          hour: '2-digit',
-          minute: '2-digit'
-        })}</>;
-      },
+        return (
+          <>
+            {date.toLocaleDateString("pt-BR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+              hour: "2-digit",
+              minute: "2-digit"
+            })}
+          </>
+        );
+      }
     },
     {
       header: "Precisa repor?",
       accessorKey: "replacement_necessary",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Revendido?",
       accessorKey: "resold",
-      sortable: true,
+      sortable: true
     },
     {
       header: "Motivo do retorno",
       accessorKey: "return_reason",
-      sortable: true,
+      sortable: true
+    },
+    {
+      header: "Local de armazenamento",
+      accessorKey: "storage_location",
+      sortable: true
     },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
+        const productReturn = row.original as ProductReturn;
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -103,7 +114,7 @@ export default function Page() {
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => router.push(`/receive/product-returns/${row.original.id}`)}
+                onClick={() => router.push(`/receive/product-returns/${productReturn.id}`)}
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
@@ -115,7 +126,13 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="EDIT" typeRegister="ProductReturn" nameModal="devolução" rowData={row.original} idRowData={row.original.id} />
+                <Modal
+                  typeModal="EDIT"
+                  typeRegister="ProductReturn"
+                  nameModal="devolução"
+                  rowData={row.original}
+                  idRowData={productReturn.id}
+                />
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
@@ -123,7 +140,12 @@ export default function Page() {
                 onPointerLeave={(event) => event.preventDefault()}
                 onPointerMove={(event) => event.preventDefault()}
               >
-                <Modal typeModal="DELETE" typeRegister="ProductReturn" nameModal="devolução" idRowData={row.original.id} />
+                <Modal
+                  typeModal="DELETE"
+                  typeRegister="ProductReturn"
+                  nameModal="devolução"
+                  idRowData={productReturn.id}
+                />
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -143,7 +165,7 @@ export default function Page() {
     <>
       {isLoading && (
         <div className="fullscreen-spinner">
-          <Spinner visible={true} color="default" message="Loading Page..."/>
+          <Spinner visible={true} color="default" message="Loading Page..." />
         </div>
       )}
       <div className="page-layout">

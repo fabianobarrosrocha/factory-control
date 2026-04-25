@@ -1,14 +1,9 @@
 "use client";
 
 import { UseFormReturn } from "react-hook-form";
-import {
-  FormField,
-  FormItem,
-  FormLabel,
-  FormControl,
-  FormMessage,
-} from "@/components/ui/form";
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
@@ -57,7 +52,7 @@ export const FormFieldsUser: React.FC<FormFieldsUserProps> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp label="Senha" helpText={help.password} />
             <FormControl>
-              <Input type="password" placeholder="Senha" {...field} />
+              <PasswordInput placeholder="Senha" {...field} />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -70,10 +65,7 @@ export const FormFieldsUser: React.FC<FormFieldsUserProps> = ({ form }) => {
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
             </FormControl>
             <div className="space-y-1 leading-none">
               <FormLabelWithHelp label="Administrador" helpText={help.isAdmin} />
@@ -83,4 +75,4 @@ export const FormFieldsUser: React.FC<FormFieldsUserProps> = ({ form }) => {
       />
     </>
   );
-}; 
+};

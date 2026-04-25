@@ -90,6 +90,7 @@ import { FormFieldsPrice } from "../FormFieldsObjectsEdit/FormFieldsPrice";
 import { User } from "@/types/user.types";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { PasswordInput } from "@/components/ui/password-input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Price } from "@/types/price.types";
 import { MessageConfig } from "@/types/message.types";
@@ -437,13 +438,9 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
             <Label htmlFor="password" className="text-right">
               Senha (deixe vazio para manter)
             </Label>
-            <Input
-              id="password"
-              type="password"
-              className="col-span-3"
-              placeholder="Nova senha (opcional)"
-              {...form.register("password")}
-            />
+            <div className="col-span-3">
+              <PasswordInput id="password" placeholder="Nova senha (opcional)" {...form.register("password")} />
+            </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="isAdmin" className="text-right">

@@ -107,8 +107,11 @@ export const fieldHelpTexts = {
     order_id: "Pedido ao qual esta devolução está relacionada.",
     date: "Data em que a devolução foi realizada.",
     return_reason: "Motivo pelo qual o produto está sendo devolvido.",
+    storage_location: "Local registrado no sistema onde o produto devolvido será armazenado.",
     replacement_necessary: "Indica se será necessário enviar um produto substituto.",
-    resold: "Indica se o produto devolvido foi revendido."
+    resold: "Indica se o produto devolvido foi revendido.",
+    products: "Produtos devolvidos vinculados a esta devolução.",
+    opened: "Indica se a embalagem do produto devolvido foi aberta."
   },
 
   // ==================== PAYMENT ====================
@@ -124,7 +127,7 @@ export const fieldHelpTexts = {
   user: {
     name: "Nome do usuário que será exibido no sistema.",
     email: "E-mail usado para login no sistema.",
-    password: "Senha de acesso ao sistema. Mínimo de 6 caracteres.",
+    password: "Senha com no mínimo 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial.",
     isAdmin: "Define se o usuário tem permissões de administrador."
   },
 

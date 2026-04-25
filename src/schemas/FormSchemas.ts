@@ -14,6 +14,17 @@ const optionalEmail = optionalText.refine((value) => !value || z.string().email(
 const optionalPhone = (message: string) =>
   optionalText.refine((value) => !value || value.replace(/\D/g, "").length >= 10, { message });
 
+const passwordComplexityMessage =
+  "A senha deve ter no mínimo 8 caracteres, com maiúscula, minúscula, número e caractere especial.";
+
+export const strongPasswordSchema = z
+  .string()
+  .min(8, { message: passwordComplexityMessage })
+  .regex(/[a-z]/, { message: passwordComplexityMessage })
+  .regex(/[A-Z]/, { message: passwordComplexityMessage })
+  .regex(/\d/, { message: passwordComplexityMessage })
+  .regex(/[^A-Za-z0-9]/, { message: passwordComplexityMessage });
+
 export const formCustomerSchema = z
   .object({
     name: z.string().min(2, {
@@ -264,8 +275,8 @@ export const formUserSchema = z.object({
   password: z
     .string()
     .optional()
-    .refine((val) => !val || val.length >= 6, {
-      message: "A senha deve ter no mínimo 6 caracteres."
+    .refine((val) => !val || strongPasswordSchema.safeParse(val).success, {
+      message: passwordComplexityMessage
     }),
   isAdmin: z.boolean().default(false)
 });
@@ -277,9 +288,7 @@ export const formUserCreateSchema = z.object({
   email: z.string().email({
     message: "Informe um email válido."
   }),
-  password: z.string().min(6, {
-    message: "A senha deve ter no mínimo 6 caracteres."
-  }),
+  password: strongPasswordSchema,
   isAdmin: z.boolean().default(false)
 });
 
@@ -351,6 +360,9 @@ export const formProductReturnSchema = z.object({
     }),
     return_reason: z.string().min(1, {
       message: "Informe o motivo da devolução."
+    }),
+    storage_location: z.string().min(1, {
+      message: "Informe o local de armazenamento."
     }),
     order_id: z.number({ coerce: true, invalid_type_error: "Informe o ID do pedido." }).positive({
       message: "Informe o Id do pedido."

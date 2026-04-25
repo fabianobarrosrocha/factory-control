@@ -5,17 +5,17 @@ export type ProductReturn = {
   id: number;
   return_reason: string;
   replacement_necessary: boolean;
-  resold: boolean
+  resold: boolean;
+  storage_location: string;
   date: Date;
   created_at: Date;
   updated_at: Date;
   order: Order;
 };
 
-export type ProductReturnRegister = Omit<ProductReturn, "id" | "created_at" | "updated_at" | "customer" | "order" > & {
+export type ProductReturnRegister = Omit<ProductReturn, "id" | "created_at" | "updated_at" | "customer" | "order"> & {
   order_id: number;
   returned_labels: ReturnedLabel;
 };
 
 export type UpdatePartialProductReturn = Partial<ProductReturn>;
-

@@ -99,7 +99,8 @@ export default function Page({ params }: { params: { id: string } }) {
                           { title: "Motivo da devolução", data: productReturn.return_reason.toString() },
                           { title: "Necessário substituição?", data: productReturn.replacement_necessary.toString() },
                           { title: "Revendido?", data: productReturn.resold.toString() },
-                          { title: "ID do pedido", data: productReturn.order.id.toString() },
+                          { title: "Local de armazenamento", data: productReturn.storage_location },
+                          { title: "ID do pedido", data: productReturn.order.id.toString() }
                         ]}
                       />
                     )}

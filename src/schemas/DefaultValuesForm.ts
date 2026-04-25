@@ -90,14 +90,14 @@ export const vacationDefaultValues = {
   employee_id: "",
   start_date: new Date(),
   end_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000),
-  sold_days: "",
+  sold_days: ""
 };
 
 export const orderDefaultValues = {
   final_price: "",
   date: undefined,
   customer_id: "",
-  products: [],
+  products: []
 };
 
 export const materialOrderDefaultValues = {
@@ -107,7 +107,7 @@ export const materialOrderDefaultValues = {
   storage_location: "",
   received_by: "",
   product_id: "",
-  vendor_id: "",
+  vendor_id: ""
 };
 
 export const productReturnDefaultValues = {
@@ -116,7 +116,8 @@ export const productReturnDefaultValues = {
     replacement_necessary: "",
     resold: "",
     return_reason: "",
-    order_id: "",
+    storage_location: "",
+    order_id: ""
   },
   returned_labels: []
 };
@@ -125,7 +126,7 @@ export const paymentDefaultValues = {
   amount_paid: "",
   payment_method: "",
   date: undefined,
-  order_id: "",
+  order_id: ""
 };
 
 export const userDefaultValues = {
@@ -157,23 +158,23 @@ export const messageConfigDefaultValues = {
 };
 
 export const invoiceDefaultValues = {
-  order_id: '',
-  number: '',
-  status: '',
-  type: '',
-  issue_date: '',
-  recipient: '',
-  note: ''
+  order_id: "",
+  number: "",
+  status: "",
+  type: "",
+  issue_date: "",
+  recipient: "",
+  note: ""
 };
 
 export const packagingDefaultValues = {
-  name: '',
-  quantity: '',
-  storage_location: ''
+  name: "",
+  quantity: "",
+  storage_location: ""
 };
 
 export const deliveryDefaultValues = {
-  order_id: '',
+  order_id: "",
   status: 1,
   delivery_date: new Date()
 };
@@ -211,13 +212,13 @@ export const salesForecastDefaultValues = {
   frequency_days: undefined,
   quantity: "0",
   created_by: undefined,
-  updated_by: undefined,
+  updated_by: undefined
 };
 
 export const labelPrintDefaultValues = {
   order_id: 0,
   created_by: undefined,
-  updated_by: undefined,
+  updated_by: undefined
 };
 
 export const expenseDefaultValues = {
@@ -231,7 +232,7 @@ export const expenseDefaultValues = {
   expense_date: new Date(),
   expense_actor_id: 0,
   created_by: undefined,
-  updated_by: undefined,
+  updated_by: undefined
 };
 
 export const locationDefaultValues = {
