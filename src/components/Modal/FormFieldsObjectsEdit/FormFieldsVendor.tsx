@@ -114,7 +114,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="phone" label="Número de Telefone" helpText={help.phone} />
+            <FormLabelWithHelp htmlFor="phone" label="Número de Telefone" helpText={help.phone} optional />
             <FormControl>
               <Input id="phone" {...field} ref={withMask("(99) 9999-9999")} placeholder="ex. (99) 99999-9999" />
             </FormControl>
@@ -128,7 +128,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
         name="cel_number"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="cel_number" label="Número de Celular" helpText={help.cel_number} />
+            <FormLabelWithHelp htmlFor="cel_number" label="Número de Celular" helpText={help.cel_number} optional />
             <FormControl>
               <Input id="cel_number" {...field} ref={withMask("(99) 99999-9999")} placeholder="ex. (99) 9999-9999" />
             </FormControl>
@@ -218,7 +218,11 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
         render={({ field }) => {
           return (
             <FormItem>
-              <FormLabelWithHelp htmlFor="volume_purchases" label="Volume das Compras" helpText={help.volume_purchases} />
+              <FormLabelWithHelp
+                htmlFor="volume_purchases"
+                label="Volume das Compras"
+                helpText={help.volume_purchases}
+              />
               <FormControl>
                 <Input
                   id="volume_purchases"

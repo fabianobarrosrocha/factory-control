@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useForm, Controller } from "react-hook-form";
-import { useRouter } from 'next/navigation';
+import { useRouter } from "next/navigation";
 import { Form } from "@/components/ui/form";
 import { Status } from "@/types/common.types";
 import { Vendor } from "@/types/vendor.types";
@@ -78,7 +78,7 @@ import {
   AlertDialogContent,
   AlertDialogTitle,
   AlertDialogDescription,
-  AlertDialogCancel,
+  AlertDialogCancel
 } from "@/components/ui/alert-dialog";
 import { FormFieldsMaterialOrder } from "../FormFieldsObjectsEdit/FormFieldsMaterialOrder";
 import { FormFieldsProductReturn } from "../FormFieldsObjectsEdit/FormFieldsProductReturn";
@@ -107,7 +107,12 @@ import { FormFieldsSalesForecast } from "../FormFieldsObjectsEdit/FormFieldsSale
 import { FormFieldsLabelPrint } from "../FormFieldsObjectsEdit/FormFieldsLabelPrint";
 import { FormFieldsExpense } from "../FormFieldsObjectsEdit/FormFieldsExpense";
 import { FormFieldsLocation } from "../FormFieldsObjectsEdit/FormFieldsLocation";
-import { invoiceDefaultValues, packagingDefaultValues, deliveryDefaultValues, deliveryPackagingDefaultValues } from "@/schemas/DefaultValuesForm";
+import {
+  invoiceDefaultValues,
+  packagingDefaultValues,
+  deliveryDefaultValues,
+  deliveryPackagingDefaultValues
+} from "@/schemas/DefaultValuesForm";
 import { SalesForecastStatusLabel } from "@/types/sales-forecast.types";
 
 interface ModalEditProps {
@@ -135,7 +140,33 @@ interface ModalEditProps {
   idRowData?: number | string;
 }
 
-type TypeRegister = "Customer" | "Employee" | "Machine" | "Procedure" | "Product" | "Vendor" | "Vacation" | "TimeConfiguration" | "Order" | "MaterialOrder" | "ProductReturn" | "Payment" | "User" | "Price" | "MessageConfig" | "Invoice" | "Packaging" | "Delivery" | "DeliveryPackaging" | "CustomerPackaging" | "Stock" | "ProductionControl" | "SalesForecast" | "LabelPrint" | "Expense" | "Location";
+type TypeRegister =
+  | "Customer"
+  | "Employee"
+  | "Machine"
+  | "Procedure"
+  | "Product"
+  | "Vendor"
+  | "Vacation"
+  | "TimeConfiguration"
+  | "Order"
+  | "MaterialOrder"
+  | "ProductReturn"
+  | "Payment"
+  | "User"
+  | "Price"
+  | "MessageConfig"
+  | "Invoice"
+  | "Packaging"
+  | "Delivery"
+  | "DeliveryPackaging"
+  | "CustomerPackaging"
+  | "Stock"
+  | "ProductionControl"
+  | "SalesForecast"
+  | "LabelPrint"
+  | "Expense"
+  | "Location";
 
 export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditProps) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -265,7 +296,7 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
 
   const getFormDefaults = () => {
     const defaults = { ...rowData } as any;
-    
+
     const normalizeSalesForecastStatus = (value: unknown): number | undefined => {
       if (typeof value === "number") return value;
       if (typeof value === "string") {
@@ -278,6 +309,21 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
     };
 
     switch (typeRegister) {
+      case "Customer":
+        return {
+          ...defaults,
+          phone: defaults?.phone ?? "",
+          cel_number: defaults?.cel_number ?? "",
+          email: defaults?.email ?? "",
+          cpf: defaults?.cpf ?? "",
+          cnpj: defaults?.cnpj ?? ""
+        };
+      case "Vendor":
+        return {
+          ...defaults,
+          phone: defaults?.phone ?? "",
+          cel_number: defaults?.cel_number ?? ""
+        };
       case "Order":
       case "ProductReturn":
         return {
@@ -304,13 +350,13 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
       case "Invoice":
         return {
           ...defaults,
-          order_id: defaults?.order_id || '',
-          number: defaults?.number || '',
-          status: defaults?.status || '',
-          type: defaults?.type || '',
-          issue_date: defaults?.issue_date || '',
-          recipient: defaults?.recipient || '',
-          note: defaults?.note || ''
+          order_id: defaults?.order_id || "",
+          number: defaults?.number || "",
+          status: defaults?.status || "",
+          type: defaults?.type || "",
+          issue_date: defaults?.issue_date || "",
+          recipient: defaults?.recipient || "",
+          note: defaults?.note || ""
         };
       case "SalesForecast":
         return {
@@ -318,7 +364,7 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
           customer_id: defaults?.customer?.id,
           product_id: defaults?.product?.id,
           status: normalizeSalesForecastStatus(defaults?.status),
-          next_estimated_date: defaults?.next_estimated_date ? new Date(defaults.next_estimated_date) : undefined,
+          next_estimated_date: defaults?.next_estimated_date ? new Date(defaults.next_estimated_date) : undefined
         };
       case "Expense":
         return {
@@ -379,22 +425,13 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
             <Label htmlFor="name" className="text-right">
               Nome
             </Label>
-            <Input
-              id="name"
-              className="col-span-3"
-              {...form.register("name")}
-            />
+            <Input id="name" className="col-span-3" {...form.register("name")} />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="email" className="text-right">
               Email
             </Label>
-            <Input
-              id="email"
-              type="email"
-              className="col-span-3"
-              {...form.register("email")}
-            />
+            <Input id="email" type="email" className="col-span-3" {...form.register("email")} />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="password" className="text-right">
@@ -416,13 +453,7 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
               <Controller
                 name="isAdmin"
                 control={form.control}
-                render={({ field }) => (
-                  <Checkbox
-                    id="isAdmin"
-                    checked={field.value}
-                    onCheckedChange={field.onChange}
-                  />
-                )}
+                render={({ field }) => <Checkbox id="isAdmin" checked={field.value} onCheckedChange={field.onChange} />}
               />
             </div>
           </div>
@@ -475,7 +506,10 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
 
   async function onSubmit(data: any) {
     const enumsToReplace = typeRegister === "SalesForecast" ? [] : [Classification, Status];
-    const formattedData = { id: idRowData, ...formatObject(data, enumsToReplace) };
+    const formattedData = {
+      id: idRowData,
+      ...formatObject(data, enumsToReplace)
+    };
     setIsLoading(true);
     try {
       await axios.patch(`/api/${apiCallByType}/${idRowData}`, formattedData);

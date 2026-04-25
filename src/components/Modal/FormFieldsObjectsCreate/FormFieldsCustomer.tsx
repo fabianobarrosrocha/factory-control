@@ -72,7 +72,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp htmlFor="nome" label="Nome" helpText={help.name} />
             <FormControl>
-              <Input id="name" {...field} placeholder="Insira o nome"/>
+              <Input id="name" {...field} placeholder="Insira o nome" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -84,7 +84,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="telefone" label="Número de Telefone" helpText={help.phone} />
+            <FormLabelWithHelp htmlFor="telefone" label="Número de Telefone" helpText={help.phone} optional />
             <FormControl>
               <Input id="phone" {...field} ref={withMask("(99) 9999-9999")} placeholder="ex. (99) 99999-9999" />
             </FormControl>
@@ -98,7 +98,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
         name="cel_number"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="numero_celular" label="Número de Celular" helpText={help.celNumber} />
+            <FormLabelWithHelp htmlFor="numero_celular" label="Número de Celular" helpText={help.celNumber} optional />
             <FormControl>
               <Input id="cel_number" {...field} ref={withMask("(99) 99999-9999")} placeholder="ex. (99) 9999-9999" />
             </FormControl>
@@ -112,7 +112,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="email" label="Email" helpText={help.email} />
+            <FormLabelWithHelp htmlFor="email" label="Email" helpText={help.email} optional />
             <FormControl>
               <Input {...field} id="email" placeholder="ex. you@exemplo.com" />
             </FormControl>
@@ -128,7 +128,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp htmlFor="nome_loja" label="Nome da Loja" helpText={help.storeName} />
             <FormControl>
-              <Input id="store_name" {...field} placeholder="Insira o nome da loja"/>
+              <Input id="store_name" {...field} placeholder="Insira o nome da loja" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -384,7 +384,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
             <FormItem>
               <FormLabelWithHelp htmlFor="debitos" label="Número" helpText={help.addressNumber} />
               <FormControl>
-                <Input id="address_number" type="number" {...field} placeholder="Insira o número do endereço"/>
+                <Input id="address_number" type="number" {...field} placeholder="Insira o número do endereço" />
               </FormControl>
               <FormMessage />
             </FormItem>

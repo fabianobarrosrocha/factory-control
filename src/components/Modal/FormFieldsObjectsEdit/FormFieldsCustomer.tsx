@@ -100,7 +100,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
         name="cel_number"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="cel_number" label="Número de Celular" helpText={help.cel_number} />
+            <FormLabelWithHelp htmlFor="cel_number" label="Número de Celular" helpText={help.cel_number} optional />
             <FormControl>
               <Input id="cel_number" {...field} ref={withMask("(99) 99999-9999")} placeholder="ex. (99) 9999-9999" />
             </FormControl>
@@ -114,7 +114,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
         name="email"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="email" label="Email" helpText={help.email} />
+            <FormLabelWithHelp htmlFor="email" label="Email" helpText={help.email} optional />
             <FormControl>
               <Input {...field} id="email" placeholder="ex. you@exemplo.com" />
             </FormControl>
@@ -185,7 +185,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
         name="cpf"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="cpf" label="Cpf" helpText={help.cpf} />
+            <FormLabelWithHelp htmlFor="cpf" label="Cpf" helpText={help.cpf} optional />
             <FormControl>
               <Input id="cpf" {...field} ref={withMask("999.999.999-99")} placeholder="999.999.999-99" />
             </FormControl>
@@ -199,7 +199,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
         name="cnpj"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="cnpj" label="Cnpj" helpText={help.cnpj} />
+            <FormLabelWithHelp htmlFor="cnpj" label="Cnpj" helpText={help.cnpj} optional />
             <FormControl>
               <Input id="cnpj" {...field} ref={withMask("99.999.999/9999-99")} placeholder="99.999.999/9999-99" />
             </FormControl>

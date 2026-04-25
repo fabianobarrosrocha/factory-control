@@ -23,17 +23,17 @@ export interface Invoice {
       credit_limit: number;
       debts: number;
       name: string;
-      phone: string;
-      cel_number: string;
-      email: string;
+      phone?: string | null;
+      cel_number?: string | null;
+      email?: string | null;
       store_name: string;
       deliver: boolean;
       pontalti: boolean;
       secondary_line: boolean;
-      cpf: string;
-      cnpj: string | null;
+      cpf?: string | null;
+      cnpj?: string | null;
       created_at: string;
       updated_at: string;
     };
   };
-} 
+}

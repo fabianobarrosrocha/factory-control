@@ -18,9 +18,9 @@ export interface PackagingWithRelations extends Packaging {
     customer: {
       id: number;
       name: string;
-      email: string;
+      email?: string | null;
       store_name: string;
-    }
+    };
   }[];
 }
 
@@ -34,4 +34,4 @@ export interface UpdatePackagingDTO {
   name?: string;
   quantity?: number;
   storage_location?: string;
-} 
+}

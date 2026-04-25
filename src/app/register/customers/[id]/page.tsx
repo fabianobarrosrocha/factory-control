@@ -105,9 +105,15 @@ export default function Page({ params }: { params: { id: string } }) {
                     {customer && (
                       <DataList
                         items={[
-                          { title: "Identificador", data: customer.id.toString() },
+                          {
+                            title: "Identificador",
+                            data: customer.id.toString()
+                          },
                           { title: "Nome", data: customer.name },
-                          { title: "Email", data: customer.email },
+                          {
+                            title: "Email",
+                            data: customer.email ?? "Não informado"
+                          },
                           {
                             title: "Telefone Fixo",
                             data: customer.phone ? VMasker.toPattern(customer.phone, "(99) 9999-9999") : "Não informado"
@@ -138,7 +144,10 @@ export default function Page({ params }: { params: { id: string } }) {
                     {customer && (
                       <DataList
                         items={[
-                          { title: "Limite de Crédito", data: `R$ ${customer.credit_limit}` },
+                          {
+                            title: "Limite de Crédito",
+                            data: `R$ ${customer.credit_limit}`
+                          },
                           { title: "Debitos", data: `R$ ${customer.debts}` }
                         ]}
                       />
@@ -170,9 +179,18 @@ export default function Page({ params }: { params: { id: string } }) {
                     {customer && (
                       <DataList
                         items={[
-                          { title: "Entrega?", data: customer.deliver ? "Sim" : "Não" },
-                          { title: "Pontalti?", data: customer.pontalti ? "Sim" : "Não" },
-                          { title: "Segunda Linha?", data: customer.secondary_line ? "Sim" : "Não" },
+                          {
+                            title: "Entrega?",
+                            data: customer.deliver ? "Sim" : "Não"
+                          },
+                          {
+                            title: "Pontalti?",
+                            data: customer.pontalti ? "Sim" : "Não"
+                          },
+                          {
+                            title: "Segunda Linha?",
+                            data: customer.secondary_line ? "Sim" : "Não"
+                          },
                           { title: "Status", data: customer.status }
                         ]}
                       />

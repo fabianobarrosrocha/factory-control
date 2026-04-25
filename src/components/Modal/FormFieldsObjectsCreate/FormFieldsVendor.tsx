@@ -112,7 +112,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form }) => {
         name="phone"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="telefone" label="Número de Telefone" helpText={help.phone} />
+            <FormLabelWithHelp htmlFor="telefone" label="Número de Telefone" helpText={help.phone} optional />
             <FormControl>
               <Input id="phone" {...field} ref={withMask("(99) 9999-9999")} placeholder="ex. (99) 99999-9999" />
             </FormControl>
@@ -126,7 +126,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form }) => {
         name="cel_number"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="numero_celular" label="Número de Celular" helpText={help.celNumber} />
+            <FormLabelWithHelp htmlFor="numero_celular" label="Número de Celular" helpText={help.celNumber} optional />
             <FormControl>
               <Input id="cel_number" {...field} ref={withMask("(99) 99999-9999")} placeholder="ex. (99) 9999-9999" />
             </FormControl>
@@ -216,7 +216,11 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form }) => {
         render={({ field }) => {
           return (
             <FormItem>
-              <FormLabelWithHelp htmlFor="volume_purchases" label="Volume das Compras" helpText={help.volumePurchases} />
+              <FormLabelWithHelp
+                htmlFor="volume_purchases"
+                label="Volume das Compras"
+                helpText={help.volumePurchases}
+              />
               <FormControl>
                 <Input
                   id="volume_purchases"
@@ -331,7 +335,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form }) => {
             <FormItem>
               <FormLabelWithHelp htmlFor="debitos" label="Número" helpText={help.addressNumber} />
               <FormControl>
-                <Input id="address_number" type="number" {...field} placeholder="Insira o número do endereço"/>
+                <Input id="address_number" type="number" {...field} placeholder="Insira o número do endereço" />
               </FormControl>
               <FormMessage />
             </FormItem>
