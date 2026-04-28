@@ -84,7 +84,7 @@ export const FormFieldsProductReturn: React.FC<FormFieldsProductReturn> = ({ for
               helpText={help.replacement_necessary}
             />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-replacement_necessary`} />
@@ -112,7 +112,7 @@ export const FormFieldsProductReturn: React.FC<FormFieldsProductReturn> = ({ for
           <FormItem>
             <FormLabelWithHelp htmlFor="resold" label="É revenda?" helpText={help.resold} />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-resold`} />

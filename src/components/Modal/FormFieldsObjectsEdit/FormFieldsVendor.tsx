@@ -144,7 +144,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
           <FormItem>
             <FormLabelWithHelp htmlFor="deliver" label="Entrega ou Retirada?" helpText={help.deliver} />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={rowData?.deliver as unknown as string}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-deliver`} />

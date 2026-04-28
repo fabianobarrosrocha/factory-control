@@ -297,6 +297,7 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
 
   const getFormDefaults = () => {
     const defaults = { ...rowData } as any;
+    const booleanToString = (value: unknown) => (typeof value === "boolean" ? String(value) : value);
 
     const normalizeSalesForecastStatus = (value: unknown): number | undefined => {
       if (typeof value === "number") return value;
@@ -317,20 +318,35 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
           cel_number: defaults?.cel_number ?? "",
           email: defaults?.email ?? "",
           cpf: defaults?.cpf ?? "",
-          cnpj: defaults?.cnpj ?? ""
+          cnpj: defaults?.cnpj ?? "",
+          deliver: booleanToString(defaults?.deliver),
+          pontalti: booleanToString(defaults?.pontalti),
+          secondary_line: booleanToString(defaults?.secondary_line)
         };
       case "Vendor":
         return {
           ...defaults,
           phone: defaults?.phone ?? "",
-          cel_number: defaults?.cel_number ?? ""
+          cel_number: defaults?.cel_number ?? "",
+          deliver: booleanToString(defaults?.deliver)
         };
       case "Order":
-      case "ProductReturn":
         return {
           ...defaults,
           order_id: defaults?.order?.id,
           date: defaults?.date ? new Date(defaults.date) : new Date()
+        };
+      case "ProductReturn":
+        return {
+          product_return: {
+            date: defaults?.date ? new Date(defaults.date) : new Date(),
+            replacement_necessary: booleanToString(defaults?.replacement_necessary),
+            resold: booleanToString(defaults?.resold),
+            return_reason: defaults?.return_reason ?? "",
+            storage_location: defaults?.storage_location ?? "",
+            order_id: defaults?.order?.id
+          },
+          returned_labels: defaults?.returned_labels ?? defaults?.returnedLabels ?? []
         };
       case "Payment":
         return {

@@ -215,7 +215,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
           <FormItem>
             <FormLabelWithHelp htmlFor="deliver" label="Entrega ou Retirada?" helpText={help.deliver} />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={rowData?.deliver as unknown as string}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-deliver`} />
@@ -242,7 +242,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
           <FormItem>
             <FormLabelWithHelp htmlFor="pontalti" label="Marca Pontalti?" helpText={help.pontalti} />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={rowData?.pontalti as unknown as string}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-pontalti`} />
@@ -269,7 +269,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
           <FormItem>
             <FormLabelWithHelp htmlFor="secondary_line" label="É linha secundária?" helpText={help.secondary_line} />
             <FormControl>
-              <RadioGroup onValueChange={field.onChange} defaultValue={rowData?.secondary_line as unknown as string}>
+              <RadioGroup onValueChange={field.onChange} value={String(field.value ?? "")}>
                 <FormItem className="flex items-center space-x-3 space-y-0">
                   <FormControl>
                     <RadioGroupItem value="true" id={`option-one-secondary_line`} />
