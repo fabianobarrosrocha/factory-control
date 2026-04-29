@@ -296,7 +296,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form }) => {
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
                 <SelectTrigger>
-                  <SelectValue />
+                  <SelectValue placeholder="Selecione um status do cliente" />
                 </SelectTrigger>
               </FormControl>
               <SelectContent>{mapEnumToSelectItems(Status)}</SelectContent>

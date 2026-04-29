@@ -1,4 +1,3 @@
-import { Status } from "@/types/common.types";
 import { Classification } from "@/types/employee.types";
 
 export const employeeDefaultValues = {
@@ -25,7 +24,7 @@ export const customerDefaultValues = {
   deliver: false,
   pontalti: false,
   secondary_line: false,
-  status: Status.operacional,
+  status: undefined,
   address: {
     zip_code: "",
     neighborhood: "",
@@ -41,14 +40,14 @@ export const machineDefaultValues = {
   model: "",
   machine_number: "",
   location_id: undefined,
-  status: Status.operacional,
-  location_status: Status.operacional
+  status: undefined,
+  location_status: undefined
 };
 
 export const procedureDefaultValues = {
   process_name: "",
   workers: "",
-  status: Status.operacional
+  status: undefined
 };
 
 export const productDefaultValues = {
@@ -61,7 +60,7 @@ export const productDefaultValues = {
   character: "",
   moldes: "",
   equivalency: "",
-  status: Status.operacional
+  status: undefined
 };
 
 export const vendorDefaultValues = {
@@ -74,7 +73,7 @@ export const vendorDefaultValues = {
   volume_purchases: "",
   purchases: "",
   invoicing: "",
-  status: Status.operacional,
+  status: undefined,
   address: {
     zip_code: "",
     neighborhood: "",
@@ -144,7 +143,7 @@ export const priceDefaultValues = {
   final_price: 0,
   second_line_price: undefined,
   frozen_until: undefined,
-  status: Status.operacional
+  status: undefined
 };
 
 export const messageConfigDefaultValues = {
@@ -175,7 +174,7 @@ export const packagingDefaultValues = {
 
 export const deliveryDefaultValues = {
   order_id: "",
-  status: 1,
+  status: undefined,
   delivery_date: new Date()
 };
 
@@ -206,7 +205,7 @@ export const productionControlDefaultValues = {
 export const salesForecastDefaultValues = {
   customer_id: 0,
   product_id: 0,
-  status: 2,
+  status: undefined,
   reason: undefined,
   next_estimated_date: undefined,
   frequency_days: undefined,
@@ -238,7 +237,7 @@ export const expenseDefaultValues = {
 export const locationDefaultValues = {
   name: "",
   code: "",
-  status: Status.operacional,
+  status: undefined,
   position_x: 0,
   position_y: 0,
   width: 150,
