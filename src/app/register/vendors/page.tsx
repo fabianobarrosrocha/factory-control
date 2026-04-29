@@ -47,8 +47,18 @@ export default function Page() {
 
   const columns = [
     {
+      header: "ID",
+      accessorKey: "id",
+      sortable: true
+    },
+    {
       header: "Nome",
       accessorKey: "name",
+      sortable: true
+    },
+    {
+      header: "Status",
+      accessorKey: "status",
       sortable: true
     },
     {

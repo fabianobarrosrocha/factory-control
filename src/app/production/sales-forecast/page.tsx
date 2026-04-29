@@ -71,7 +71,27 @@ export default function Page() {
         return SalesForecastStatusLabel[sf.status as keyof typeof SalesForecastStatusLabel] || String(sf.status);
       }
     },
-    // coluna de data removida: generated_at não existe mais
+    {
+      header: "Motivo",
+      accessorKey: "reason",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).reason ?? "-"
+    },
+    {
+      header: "Próx. data estimada",
+      accessorKey: "next_estimated_date",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => {
+        const date = (row.original as SalesForecast).next_estimated_date;
+        return date ? new Date(date).toLocaleDateString("pt-BR") : "-";
+      }
+    },
+    {
+      header: "Frequência (dias)",
+      accessorKey: "frequency_days",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).frequency_days ?? "-"
+    },
     {
       id: "actions",
       enableHiding: false,

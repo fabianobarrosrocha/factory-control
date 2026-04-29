@@ -49,6 +49,11 @@ export default function Page() {
 
   const columns = [
     {
+      header: "ID",
+      accessorKey: "id",
+      sortable: true
+    },
+    {
       header: "Nome",
       accessorKey: "name",
       sortable: true
@@ -56,6 +61,16 @@ export default function Page() {
     {
       header: "Status",
       accessorKey: "status",
+      sortable: true
+    },
+    {
+      header: "Limite de crédito",
+      accessorKey: "credit_limit",
+      sortable: true
+    },
+    {
+      header: "Débitos",
+      accessorKey: "debts",
       sortable: true
     },
     {

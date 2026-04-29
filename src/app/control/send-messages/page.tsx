@@ -49,6 +49,10 @@ export default function Page() {
 
   const columns: ColumnDef<MessageConfig>[] = [
     {
+      header: "ID",
+      accessorKey: "id"
+    },
+    {
       header: "Cliente ID",
       accessorKey: "customer_id"
     },

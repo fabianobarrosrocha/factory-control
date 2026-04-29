@@ -47,6 +47,10 @@ export default function Page() {
 
   const columns: ColumnDef<Price>[] = [
     {
+      header: "ID",
+      accessorKey: "id"
+    },
+    {
       header: "Produto",
       accessorKey: "product.name"
     },

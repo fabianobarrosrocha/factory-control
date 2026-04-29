@@ -48,6 +48,10 @@ export default function Page() {
 
   const columns: ColumnDef<User>[] = [
     {
+      header: "ID",
+      accessorKey: "id"
+    },
+    {
       header: "Nome",
       accessorKey: "name"
     },

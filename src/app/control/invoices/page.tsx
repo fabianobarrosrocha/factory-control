@@ -47,6 +47,10 @@ export default function Page() {
 
   const columns: ColumnDef<Invoice>[] = [
     {
+      header: "ID",
+      accessorKey: "id"
+    },
+    {
       header: "Número",
       accessorKey: "number"
     },
@@ -76,6 +80,10 @@ export default function Page() {
       header: "Valor",
       accessorKey: "order.final_price",
       cell: ({ row }: { row: Row<Invoice> }) => <span>R$ {row.original.order.final_price.toFixed(2)}</span>
+    },
+    {
+      header: "Observação",
+      accessorKey: "note"
     },
     {
       id: "actions",
