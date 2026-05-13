@@ -200,7 +200,7 @@ export const formVendorSchema = z
     }),
     cel_number: optionalPhone("Informe um celular válido."),
     phone: optionalPhone("Informe um telefone válido."),
-    deliver: z.string(),
+    deliver: z.string({ message: "Informe se é entrega ou retirada." }),
     volume_purchases: z.number({
       coerce: true,
       invalid_type_error: "Informe o volume de compras."
