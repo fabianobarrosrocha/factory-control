@@ -1,6 +1,7 @@
 "use client";
 import React, { useTransition, useEffect, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import { z } from "zod";
 import { useForm } from "react-hook-form";
@@ -17,6 +18,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 const Login: React.FC = () => {
   const [isPending, startTransition] = useTransition();
   const [isLoading, setIsLoading] = useState(true);
+  const [authError, setAuthError] = useState<string | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -35,12 +37,17 @@ const Login: React.FC = () => {
   });
 
   async function handleSubmit(values: z.infer<typeof signInFormSchema>) {
+    setAuthError(null);
     setIsLoading(true);
     startTransition(async () => {
       try {
-        login(values);
+        const result = await login(values);
+        if (result?.error) {
+          setAuthError(result.error);
+        }
       } catch (err) {
         console.error("Login error:", err);
+        setAuthError("Alguma coisa aconteceu de errado.");
       } finally {
         setIsLoading(false);
       }
@@ -86,9 +93,6 @@ const Login: React.FC = () => {
                   <FormItem>
                     <div className="flex justify-between items-center">
                       <FormLabel className="font-semibold">Senha</FormLabel>
-                      <Button type="button" className="p-0 h-0 font-semibold" variant="link">
-                        Esqueceu a Senha?
-                      </Button>
                     </div>
                     <FormControl>
                       <PasswordInput disabled={isPending} {...field} />
@@ -97,9 +101,19 @@ const Login: React.FC = () => {
                   </FormItem>
                 )}
               />
+              {authError && (
+                <p className="text-sm font-medium text-destructive" role="alert">
+                  {authError}
+                </p>
+              )}
               <Button className="w-full" type="submit" disabled={isPending}>
                 Logar
               </Button>
+              <div className="flex justify-center">
+                <Link href="/auth/reset" tabIndex={-1} className="text-sm font-semibold text-primary hover:underline">
+                  Esqueceu a Senha?
+                </Link>
+              </div>
             </form>
           </Form>
         </div>
