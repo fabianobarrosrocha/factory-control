@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Customer } from "@/types/customer.types";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
-import { formatCellPhone, formatCpfCnpj, formatPhone } from "@/utils/formatters";
+import { formatCellPhone, formatCnpj, formatCpf, formatPhone } from "@/utils/formatters";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -96,12 +96,21 @@ export default function Page() {
       sortable: true
     },
     {
-      header: "Cpf/Cnpj",
+      header: "CPF",
       accessorKey: "cpf",
       sortable: true,
       cell: ({ row }: { row: Row<DataRow> }) => {
         const customer = row.original as Customer;
-        return <span>{formatCpfCnpj(customer.cpf, customer.cnpj)}</span>;
+        return <span>{customer.cpf ? formatCpf(customer.cpf) : "—"}</span>;
+      }
+    },
+    {
+      header: "CNPJ",
+      accessorKey: "cnpj",
+      sortable: true,
+      cell: ({ row }: { row: Row<DataRow> }) => {
+        const customer = row.original as Customer;
+        return <span>{customer.cnpj ? formatCnpj(customer.cnpj) : "—"}</span>;
       }
     },
     {
