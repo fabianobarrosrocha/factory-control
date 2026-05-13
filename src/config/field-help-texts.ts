@@ -77,16 +77,17 @@ export const fieldHelpTexts = {
   foam: {
     name: "Nome da espuma (ex: D28, D33).",
     short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: D28).",
-    size: "Tamanho da espuma (ex: P, M, G).",
-    description: "Descrição complementar — pode incluir densidade, espessura, etc.",
+    size: "Tamanho/densidade de referência (ex: 28kg/m³).",
+    description: "Descrição complementar — espessura, observações, etc.",
     status: "Define se a espuma está disponível ou suspensa."
   },
 
   // ==================== MOLD ====================
   mold: {
-    name: "Nome do molde (ex: Molde 18).",
-    short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: M18).",
-    size: "Tamanho de referência do molde (ex: 18).",
+    name: "Nome do molde (ex: Molde P, Molde G).",
+    short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: MP).",
+    size: "Tamanho de referência (ex: P, M, G).",
+    description: "Descrição complementar — pode incluir tamanho numérico, observações.",
     status: "Define se o molde está disponível ou suspenso."
   },
 

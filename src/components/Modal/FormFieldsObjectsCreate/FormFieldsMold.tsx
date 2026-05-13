@@ -69,9 +69,23 @@ export const FormFieldsMold: React.FC<FormFieldsMoldProps> = ({ form }) => {
         name="size"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="size" label="Tamanho de referência" helpText={help.size} optional />
+            <FormLabelWithHelp htmlFor="size" label="Tamanho" helpText={help.size} />
             <FormControl>
-              <Input id="size" {...field} placeholder="ex. 18" />
+              <Input id="size" {...field} placeholder="ex. P, M, G" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="description"
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="description" label="Descrição" helpText={help.description} optional />
+            <FormControl>
+              <Input id="description" {...field} placeholder="ex. Tamanho 18 — bojo" />
             </FormControl>
             <FormMessage />
           </FormItem>

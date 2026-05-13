@@ -601,7 +601,8 @@ export const formFoamSchema = z.object({
 export const formMoldSchema = z.object({
   name: z.string().min(2, { message: "Informe o nome do molde." }),
   short_code: shortCodeSchema,
-  size: z.string().optional(),
+  size: z.string().min(1, { message: "Informe o tamanho (P, M, G, etc)." }),
+  description: z.string().optional(),
   status: z.nativeEnum(Status)
 });
 

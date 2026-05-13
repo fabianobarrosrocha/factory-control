@@ -275,5 +275,6 @@ export const moldDefaultValues = {
   name: "",
   short_code: "",
   size: "",
+  description: "",
   status: undefined
 };

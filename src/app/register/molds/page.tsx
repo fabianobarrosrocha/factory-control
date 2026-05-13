@@ -45,6 +45,7 @@ export default function Page() {
     { header: "Nome", accessorKey: "name", sortable: true },
     { header: "Sigla", accessorKey: "short_code", sortable: true },
     { header: "Tamanho", accessorKey: "size", sortable: true },
+    { header: "Descrição", accessorKey: "description", sortable: false },
     { header: "Status", accessorKey: "status", sortable: true },
     {
       id: "actions",

@@ -71,7 +71,7 @@ export const FormFieldsFoam: React.FC<FormFieldsFoamProps> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp htmlFor="size" label="Tamanho" helpText={help.size} />
             <FormControl>
-              <Input id="size" {...field} placeholder="ex. P, M, G" />
+              <Input id="size" {...field} placeholder="ex. 28kg/m³" />
             </FormControl>
             <FormMessage />
           </FormItem>
@@ -85,7 +85,7 @@ export const FormFieldsFoam: React.FC<FormFieldsFoamProps> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp htmlFor="description" label="Descrição" helpText={help.description} optional />
             <FormControl>
-              <Input id="description" {...field} placeholder="ex. 28kg/m³ — densidade leve" />
+              <Input id="description" {...field} placeholder="ex. Densidade leve — 30mm" />
             </FormControl>
             <FormMessage />
           </FormItem>
