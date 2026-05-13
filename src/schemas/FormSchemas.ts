@@ -329,7 +329,9 @@ export const formOrderSchema = z.object({
 });
 
 export const formMaterialOrderSchema = z.object({
-  date: z.date({ required_error: "Informe a data." }),
+  date: z
+    .date({ required_error: "Informe a data." })
+    .refine((d) => d.getTime() <= Date.now(), { message: "A data do recebimento não pode ser futura." }),
   amount: z.number({ coerce: true }).positive({
     message: "Informe a quantidade."
   }),
