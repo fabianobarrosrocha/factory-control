@@ -574,6 +574,36 @@ export const formTimeAdjustmentReviewSchema = z.object({
   admin_comment: z.string().optional()
 });
 
+const shortCodeSchema = z
+  .string()
+  .min(2, { message: "Mínimo 2 caracteres." })
+  .max(5, { message: "Máximo 5 caracteres." })
+  .regex(/^[A-Z0-9]+$/, { message: "Use apenas letras maiúsculas ou dígitos." });
+
+export const formColorSchema = z.object({
+  name: z.string().min(2, { message: "Informe o nome da cor." }),
+  short_code: shortCodeSchema,
+  hex_code: z
+    .string()
+    .optional()
+    .refine((v) => !v || /^#?[0-9A-Fa-f]{6}$/.test(v), { message: "Use formato hex (#RRGGBB)." }),
+  status: z.nativeEnum(Status)
+});
+
+export const formFoamSchema = z.object({
+  name: z.string().min(2, { message: "Informe o nome da espuma." }),
+  short_code: shortCodeSchema,
+  density: z.string().optional(),
+  status: z.nativeEnum(Status)
+});
+
+export const formMoldSchema = z.object({
+  name: z.string().min(2, { message: "Informe o nome do molde." }),
+  short_code: shortCodeSchema,
+  size: z.string().optional(),
+  status: z.nativeEnum(Status)
+});
+
 function validaCep(cep: string) {
   return /^\d{8}$/.test(cep.replace(/[^\d]+/g, ""));
 }

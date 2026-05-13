@@ -255,3 +255,24 @@ export const timeAdjustmentRequestDefaultValues = {
 export const timeAdjustmentReviewDefaultValues = {
   admin_comment: ""
 };
+
+export const colorDefaultValues = {
+  name: "",
+  short_code: "",
+  hex_code: "",
+  status: undefined
+};
+
+export const foamDefaultValues = {
+  name: "",
+  short_code: "",
+  density: "",
+  status: undefined
+};
+
+export const moldDefaultValues = {
+  name: "",
+  short_code: "",
+  size: "",
+  status: undefined
+};

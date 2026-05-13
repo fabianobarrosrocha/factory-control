@@ -33,6 +33,21 @@ export const menuItensCadastro = [
     id: 6,
     item: "Localizações",
     route: "/register/locations"
+  },
+  {
+    id: 7,
+    item: "Cores",
+    route: "/register/colors"
+  },
+  {
+    id: 8,
+    item: "Espumas",
+    route: "/register/foams"
+  },
+  {
+    id: 9,
+    item: "Moldes",
+    route: "/register/molds"
   }
 ];
 

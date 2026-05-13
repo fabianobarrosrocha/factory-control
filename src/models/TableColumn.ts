@@ -19,6 +19,9 @@ import { LabelPrint } from "@/types/label-print.types";
 import { PurchaseForecastSummary, MaterialForecast, ProductionControlForecast } from "@/types/purchase-forecast.types";
 import { Expense } from "@/types/expense.types";
 import { ProductReturn } from "@/types/product_return.types";
+import { Color } from "@/types/color.types";
+import { Foam } from "@/types/foam.types";
+import { Mold } from "@/types/mold.types";
 
 export type DataRow =
   | Customer
@@ -42,7 +45,10 @@ export type DataRow =
   | MaterialForecast
   | ProductionControlForecast
   | Expense
-  | ProductReturn;
+  | ProductReturn
+  | Color
+  | Foam
+  | Mold;
 
 export type TableColumn<T> = {
   id?: string;

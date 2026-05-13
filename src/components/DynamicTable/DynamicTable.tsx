@@ -53,7 +53,8 @@ interface TableProps<T extends DataRow> {
     | Partial<PurchaseForecastSummary>[]
     | Partial<MaterialForecast>[]
     | Partial<ProductionControlForecast>[]
-    | Partial<Expense>[];
+    | Partial<Expense>[]
+    | Partial<DataRow>[];
   filterFields?: TableColumn<T>[];
   typeRegister?: string;
   isLoadingSpinner?: boolean;

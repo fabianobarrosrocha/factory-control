@@ -40,7 +40,7 @@ interface ModalDeleteProps {
   onDelete?: () => void;
 }
 
-type TypeRegister = "Customer" | "Employee" | "Machine" | "Procedure" | "Product" | "Vendor" | "Vacation" | "TimeConfiguration" | "Order" | "MaterialOrder" | "ProductReturn" | "Payment" | "User" | "Price" | "MessageConfig" | "Invoice" | "Packaging" | "Delivery" | "DeliveryPackaging" | "CustomerPackaging" | "Stock" | "ProductionControl" | "SalesForecast" | "LabelPrint" | "Expense" | "Location";
+type TypeRegister = "Customer" | "Employee" | "Machine" | "Procedure" | "Product" | "Vendor" | "Vacation" | "TimeConfiguration" | "Order" | "MaterialOrder" | "ProductReturn" | "Payment" | "User" | "Price" | "MessageConfig" | "Invoice" | "Packaging" | "Delivery" | "DeliveryPackaging" | "CustomerPackaging" | "Stock" | "ProductionControl" | "SalesForecast" | "LabelPrint" | "Expense" | "Location" | "Color" | "Foam" | "Mold";
 
 export const Delete = ({ nameModal, typeRegister, idRowData, onDelete }: ModalDeleteProps) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -132,6 +132,15 @@ export const Delete = ({ nameModal, typeRegister, idRowData, onDelete }: ModalDe
       break;
     case "Location":
       apiCallByType = "locations";
+      break;
+    case "Color":
+      apiCallByType = "colors";
+      break;
+    case "Foam":
+      apiCallByType = "foams";
+      break;
+    case "Mold":
+      apiCallByType = "molds";
       break;
     default:
       throw new Error(`Invalid typeRegister: ${typeRegister}`);

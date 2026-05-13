@@ -64,7 +64,10 @@ import {
   formSalesForecastSchema,
   formExpenseSchema,
   formLabelPrintSchema,
-  formLocationSchema
+  formLocationSchema,
+  formColorSchema,
+  formFoamSchema,
+  formMoldSchema
 } from "@/schemas/FormSchemas";
 import {
   customerDefaultValues,
@@ -91,7 +94,10 @@ import {
   salesForecastDefaultValues,
   expenseDefaultValues,
   labelPrintDefaultValues,
-  locationDefaultValues
+  locationDefaultValues,
+  colorDefaultValues,
+  foamDefaultValues,
+  moldDefaultValues
 } from "@/schemas/DefaultValuesForm";
 import {
   Dialog,
@@ -116,6 +122,9 @@ import { FormFieldsSalesForecast } from "../FormFieldsObjectsCreate/FormFieldsSa
 import { FormFieldsExpense } from "../FormFieldsObjectsCreate/FormFieldsExpense";
 import { FormFieldsLabelPrint } from "../FormFieldsObjectsCreate/FormFieldsLabelPrint";
 import { FormFieldsLocation } from "../FormFieldsObjectsCreate/FormFieldsLocation";
+import { FormFieldsColor } from "../FormFieldsObjectsCreate/FormFieldsColor";
+import { FormFieldsFoam } from "../FormFieldsObjectsCreate/FormFieldsFoam";
+import { FormFieldsMold } from "../FormFieldsObjectsCreate/FormFieldsMold";
 
 interface ModalEditProps {
   nameModal: string;
@@ -124,7 +133,7 @@ interface ModalEditProps {
   triggerLabel?: string;
 }
 
-type TypeRegister = "Customer" | "Employee" | "Machine" | "Procedure" | "Product" | "Vendor" | "Vacation" | "Order" | "MaterialOrder" | "ProductReturn" | "Payment" | "User" | "Price" | "MessageConfig" | "Invoice" | "Packaging" | "Delivery" | "DeliveryPackaging" | "CustomerPackaging" | "Stock" | "ProductionControl" | "SalesForecast" | "Expense" | "LabelPrint" | "Location";
+type TypeRegister = "Customer" | "Employee" | "Machine" | "Procedure" | "Product" | "Vendor" | "Vacation" | "Order" | "MaterialOrder" | "ProductReturn" | "Payment" | "User" | "Price" | "MessageConfig" | "Invoice" | "Packaging" | "Delivery" | "DeliveryPackaging" | "CustomerPackaging" | "Stock" | "ProductionControl" | "SalesForecast" | "Expense" | "LabelPrint" | "Location" | "Color" | "Foam" | "Mold";
 
 type FormData = z.infer<typeof formCustomerSchema> |
   z.infer<typeof formEmployeeSchema> |
@@ -301,6 +310,21 @@ export const Create: React.FC<ModalEditProps> = ({ nameModal, typeRegister, rowD
       objDefaultValues = locationDefaultValues;
       apiCallByType = "locations";
       break;
+    case "Color":
+      typeSchema = formColorSchema;
+      objDefaultValues = colorDefaultValues;
+      apiCallByType = "colors";
+      break;
+    case "Foam":
+      typeSchema = formFoamSchema;
+      objDefaultValues = foamDefaultValues;
+      apiCallByType = "foams";
+      break;
+    case "Mold":
+      typeSchema = formMoldSchema;
+      objDefaultValues = moldDefaultValues;
+      apiCallByType = "molds";
+      break;
     default:
       throw new Error(`Invalid typeRegister: ${typeRegister}`);
   }
@@ -387,6 +411,15 @@ export const Create: React.FC<ModalEditProps> = ({ nameModal, typeRegister, rowD
       break;
     case "Location":
       formFields1 = <FormFieldsLocation form={form} />;
+      break;
+    case "Color":
+      formFields1 = <FormFieldsColor form={form} />;
+      break;
+    case "Foam":
+      formFields1 = <FormFieldsFoam form={form} />;
+      break;
+    case "Mold":
+      formFields1 = <FormFieldsMold form={form} />;
       break;
     default:
       formFields1 = <div>erro</div>;

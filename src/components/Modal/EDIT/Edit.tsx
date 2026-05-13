@@ -58,7 +58,10 @@ import {
   formSalesForecastSchema,
   formLabelPrintSchema,
   formExpenseSchema,
-  formLocationSchema
+  formLocationSchema,
+  formColorSchema,
+  formFoamSchema,
+  formMoldSchema
 } from "@/schemas/FormSchemas";
 import {
   Dialog,
@@ -109,6 +112,9 @@ import { FormFieldsSalesForecast } from "../FormFieldsObjectsEdit/FormFieldsSale
 import { FormFieldsLabelPrint } from "../FormFieldsObjectsEdit/FormFieldsLabelPrint";
 import { FormFieldsExpense } from "../FormFieldsObjectsEdit/FormFieldsExpense";
 import { FormFieldsLocation } from "../FormFieldsObjectsEdit/FormFieldsLocation";
+import { FormFieldsColor } from "../FormFieldsObjectsEdit/FormFieldsColor";
+import { FormFieldsFoam } from "../FormFieldsObjectsEdit/FormFieldsFoam";
+import { FormFieldsMold } from "../FormFieldsObjectsEdit/FormFieldsMold";
 import {
   invoiceDefaultValues,
   packagingDefaultValues,
@@ -168,7 +174,10 @@ type TypeRegister =
   | "SalesForecast"
   | "LabelPrint"
   | "Expense"
-  | "Location";
+  | "Location"
+  | "Color"
+  | "Foam"
+  | "Mold";
 
 export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditProps) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -291,6 +300,18 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
     case "Location":
       typeSchema = formLocationSchema;
       apiCallByType = "locations";
+      break;
+    case "Color":
+      typeSchema = formColorSchema;
+      apiCallByType = "colors";
+      break;
+    case "Foam":
+      typeSchema = formFoamSchema;
+      apiCallByType = "foams";
+      break;
+    case "Mold":
+      typeSchema = formMoldSchema;
+      apiCallByType = "molds";
       break;
     default:
       throw new Error(`Invalid typeRegister: ${typeRegister}`);
@@ -549,6 +570,15 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
       break;
     case "Location":
       formFields = <FormFieldsLocation form={form} />;
+      break;
+    case "Color":
+      formFields = <FormFieldsColor form={form} />;
+      break;
+    case "Foam":
+      formFields = <FormFieldsFoam form={form} />;
+      break;
+    case "Mold":
+      formFields = <FormFieldsMold form={form} />;
       break;
     default:
       formFields = <div>erro</div>;

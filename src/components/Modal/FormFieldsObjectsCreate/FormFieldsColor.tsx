@@ -1,0 +1,101 @@
+"use client";
+
+import React from "react";
+
+import { Status } from "@/types/common.types";
+import { Input } from "@/components/ui/input";
+import { UseFormReturn } from "react-hook-form";
+import { FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
+import { fieldHelpTexts } from "@/config/field-help-texts";
+
+interface FormFieldsColorProps {
+  form: UseFormReturn;
+}
+
+type EnumType<T> = { [key: string]: T };
+
+function mapEnumToSelectItems<T extends string>(enumObj: EnumType<T>): JSX.Element[] {
+  return Object.keys(enumObj).map((key) => (
+    <SelectItem key={key} value={enumObj[key]}>
+      {String(enumObj[key])}
+    </SelectItem>
+  ));
+}
+
+const help = fieldHelpTexts.color;
+
+export const FormFieldsColor: React.FC<FormFieldsColorProps> = ({ form }) => {
+  return (
+    <>
+      <FormField
+        key="name"
+        control={form.control}
+        name="name"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="name" label="Nome" helpText={help.name} />
+            <FormControl>
+              <Input id="name" {...field} placeholder="ex. Preto" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="short_code"
+        control={form.control}
+        name="short_code"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="short_code" label="Código curto" helpText={help.short_code} />
+            <FormControl>
+              <Input
+                id="short_code"
+                {...field}
+                placeholder="ex. PRT"
+                onChange={(e) => field.onChange(e.target.value.toUpperCase())}
+                maxLength={5}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="hex_code"
+        control={form.control}
+        name="hex_code"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="hex_code" label="Cor (hex)" helpText={help.hex_code} optional />
+            <FormControl>
+              <Input id="hex_code" {...field} placeholder="#000000" maxLength={7} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="status"
+        control={form.control}
+        name="status"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="status" label="Status" helpText={help.status} />
+            <Select onValueChange={field.onChange} value={field.value}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o status" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>{mapEnumToSelectItems(Status)}</SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+    </>
+  );
+};

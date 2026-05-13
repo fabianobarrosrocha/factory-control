@@ -65,6 +65,30 @@ export const fieldHelpTexts = {
     status: "Define se o produto está ativo ou descontinuado."
   },
 
+  // ==================== COLOR ====================
+  color: {
+    name: "Nome da cor (ex: Preto, Branco, Bege).",
+    short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: PRT).",
+    hex_code: "Código hexadecimal da cor para visualização (ex: #000000).",
+    status: "Define se a cor está disponível ou suspensa."
+  },
+
+  // ==================== FOAM ====================
+  foam: {
+    name: "Nome da espuma (ex: D28, D33).",
+    short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: D28).",
+    density: "Densidade ou descrição complementar (ex: 28kg/m³).",
+    status: "Define se a espuma está disponível ou suspensa."
+  },
+
+  // ==================== MOLD ====================
+  mold: {
+    name: "Nome do molde (ex: Molde 18).",
+    short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: M18).",
+    size: "Tamanho de referência do molde (ex: 18).",
+    status: "Define se o molde está disponível ou suspenso."
+  },
+
   // ==================== MACHINE ====================
   machine: {
     name: "Nome ou identificação da máquina.",
