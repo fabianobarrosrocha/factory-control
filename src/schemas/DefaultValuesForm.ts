@@ -4,6 +4,7 @@ export const employeeDefaultValues = {
   cel_number: "",
   cpf: "",
   classification: undefined,
+  birth_date: undefined,
   salary: undefined,
   admission: undefined,
   dismissal_date: undefined

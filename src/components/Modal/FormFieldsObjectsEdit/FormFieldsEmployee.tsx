@@ -97,6 +97,40 @@ export const FormFieldsEmployee: React.FC<FormFieldsEmployee> = ({ form }) => {
         )}
       />
       <FormField
+        key="birth_date"
+        control={form.control}
+        name="birth_date"
+        render={({ field }) => (
+          <FormItem className="flex flex-col justify-between">
+            <FormLabelWithHelp htmlFor="birth_date" label="Data de Nascimento" helpText={help.birth_date} optional />
+            <Popover>
+              <PopoverTrigger asChild>
+                <FormControl>
+                  <Button
+                    variant={"outline"}
+                    className={cn("w-[240px] pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                  >
+                    {field.value ? format(field.value, "PPP") : <span>Escolha uma data</span>}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
+                </FormControl>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar
+                  mode="single"
+                  selected={field.value || undefined}
+                  onSelect={field.onChange}
+                  toDate={new Date()}
+                  captionLayout="dropdown"
+                  initialFocus
+                />
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
         key="classification"
         control={form.control}
         name="classification"

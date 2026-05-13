@@ -128,6 +128,7 @@ export const formEmployeeSchema = z.object({
     message: "Informe o CPF."
   }),
   classification: z.nativeEnum(Classification),
+  birth_date: z.date().optional(),
   salary: z.number({ coerce: true }).optional(),
   admission: z.date({ required_error: "Informe a data de admissão." }),
   dismissal_date: z.date().optional()

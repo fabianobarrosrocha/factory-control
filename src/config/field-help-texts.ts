@@ -10,6 +10,7 @@ export const fieldHelpTexts = {
     phone: "Número de telefone fixo para contato. Formato: (99) 9999-9999",
     cel_number: "Número de celular principal do funcionário. Formato: (99) 99999-9999",
     cpf: "CPF do funcionário. Este documento é único e será usado para identificação.",
+    birth_date: "Data de nascimento do funcionário.",
     classification: "Define o tipo/cargo do funcionário na empresa (ex: Funcionário, Gerente, etc).",
     salary: "Salário mensal do funcionário em reais.",
     admission: "Data em que o funcionário foi admitido na empresa.",
