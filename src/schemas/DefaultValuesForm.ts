@@ -94,7 +94,7 @@ export const vacationDefaultValues = {
 
 export const orderDefaultValues = {
   final_price: "",
-  date: undefined,
+  date: new Date(),
   customer_id: "",
   products: []
 };
