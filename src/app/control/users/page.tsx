@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 import Header from "@/components/Header";
-import type { User } from "@/types/user.types";
+import { type User, ACCESS_LEVEL_LABELS } from "@/types/user.types";
 
 export default function Page() {
   const [data, setData] = useState<User[]>([]);
@@ -60,9 +60,9 @@ export default function Page() {
       accessorKey: "email"
     },
     {
-      header: "Admin",
-      accessorKey: "isAdmin",
-      cell: ({ row }: { row: Row<User> }) => <span>{row.original.isAdmin ? "Sim" : "Não"}</span>
+      header: "Nível de Acesso",
+      accessorKey: "access_level",
+      cell: ({ row }: { row: Row<User> }) => <span>{ACCESS_LEVEL_LABELS[row.original.access_level] ?? "—"}</span>
     },
     {
       header: "Data de criação",

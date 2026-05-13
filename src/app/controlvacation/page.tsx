@@ -19,7 +19,7 @@ function Page() {
         <main className="main-layout">
           <Header title="Controle de ferias" />
 
-          {session.user.isAdmin && <VacationPage />}
+          {session.user.access_level === "administrator" && <VacationPage />}
         </main>
       </div>
     );

@@ -1,12 +1,13 @@
 "use client";
 
 import { UseFormReturn } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormControl, FormMessage } from "@/components/ui/form";
+import { FormField, FormItem, FormControl, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
+import { ACCESS_LEVELS, ACCESS_LEVEL_LABELS } from "@/types/user.types";
 
 interface FormFieldsUserProps {
   form: UseFormReturn<any>;
@@ -61,15 +62,25 @@ export const FormFieldsUser: React.FC<FormFieldsUserProps> = ({ form }) => {
 
       <FormField
         control={form.control}
-        name="isAdmin"
+        name="access_level"
         render={({ field }) => (
-          <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-            <FormControl>
-              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
-            </FormControl>
-            <div className="space-y-1 leading-none">
-              <FormLabelWithHelp label="Administrador" helpText={help.isAdmin} />
-            </div>
+          <FormItem>
+            <FormLabelWithHelp label="Nível de Acesso" helpText={help.access_level} />
+            <Select onValueChange={field.onChange} value={field.value ?? undefined}>
+              <FormControl>
+                <SelectTrigger>
+                  <SelectValue placeholder="Selecione o nível de acesso" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {ACCESS_LEVELS.map((level) => (
+                  <SelectItem key={level} value={level}>
+                    {ACCESS_LEVEL_LABELS[level]}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
           </FormItem>
         )}
       />

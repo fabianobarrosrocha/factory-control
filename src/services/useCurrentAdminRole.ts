@@ -7,5 +7,5 @@ export const useCurrentUser = () => {
 
 export const useCurrentAdminRole = () => {
   const session = useSession();
-  return session.data?.user?.isAdmin;
+  return session.data?.user?.access_level === "administrator";
 };

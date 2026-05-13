@@ -9,7 +9,7 @@ import { useRouter } from "next/navigation";
 import DataList from "@/components/DataList";
 import Modal from "@/components/Modal/Modal";
 import { Button } from "@/components/ui/button";
-import { User } from "@/types/user.types";
+import { type User, ACCESS_LEVEL_LABELS } from "@/types/user.types";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
@@ -105,7 +105,7 @@ export default function Page({ params }: { params: { id: string } }) {
                         { title: "Identificador", data: user.id.toString() },
                         { title: "Nome", data: user.name },
                         { title: "Email", data: user.email },
-                        { title: "Administrador", data: user.isAdmin ? "Sim" : "Não" }
+                        { title: "Nível de Acesso", data: ACCESS_LEVEL_LABELS[user.access_level] ?? "—" }
                       ]}
                     />
                   </div>

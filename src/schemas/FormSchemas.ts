@@ -2,6 +2,7 @@ import { z } from "zod";
 import { cpf, cnpj } from "cpf-cnpj-validator";
 import { Status } from "@/types/common.types";
 import { Classification } from "@/types/employee.types";
+import { ACCESS_LEVELS } from "@/types/user.types";
 import { SalesForecastStatus } from "@/types/sales-forecast.types";
 import { z as zod } from "zod";
 
@@ -288,7 +289,10 @@ export const formUserSchema = z.object({
     .refine((val) => !val || strongPasswordSchema.safeParse(val).success, {
       message: passwordComplexityMessage
     }),
-  isAdmin: z.boolean().default(false)
+  access_level: z.enum([...ACCESS_LEVELS] as [string, ...string[]], {
+    required_error: "Selecione o nível de acesso.",
+    invalid_type_error: "Selecione o nível de acesso."
+  })
 });
 
 export const formUserCreateSchema = z.object({
@@ -299,7 +303,10 @@ export const formUserCreateSchema = z.object({
     message: "Informe um email válido."
   }),
   password: strongPasswordSchema,
-  isAdmin: z.boolean().default(false)
+  access_level: z.enum([...ACCESS_LEVELS] as [string, ...string[]], {
+    required_error: "Selecione o nível de acesso.",
+    invalid_type_error: "Selecione o nível de acesso."
+  })
 });
 
 export const formVacationSchema = z.object({

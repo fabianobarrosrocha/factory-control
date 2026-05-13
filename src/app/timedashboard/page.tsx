@@ -18,7 +18,7 @@ function Page() {
         </nav>
         <main className="main-layout">
           <Header title="Ponto Online" />
-          {session.user.isAdmin ? <Admin /> : <Employee idUser={session.user.idToken} />}
+          {session.user.access_level === "administrator" ? <Admin /> : <Employee idUser={session.user.idToken} />}
         </main>
       </div>
     );

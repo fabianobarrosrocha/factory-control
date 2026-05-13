@@ -133,7 +133,7 @@ export const fieldHelpTexts = {
     name: "Nome do usuário que será exibido no sistema.",
     email: "E-mail usado para login no sistema.",
     password: "Senha com no mínimo 8 caracteres, incluindo maiúscula, minúscula, número e caractere especial.",
-    isAdmin: "Define se o usuário tem permissões de administrador."
+    access_level: "Define o nível de acesso do usuário (Administrador ou Padrão)."
   },
 
   // ==================== PRICE ====================

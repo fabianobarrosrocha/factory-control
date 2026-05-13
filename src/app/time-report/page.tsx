@@ -51,7 +51,7 @@ function Page() {
   const [endDate, setEndDate] = useState(moment().format("YYYY-MM-DD"));
   const [selectedEmployee, setSelectedEmployee] = useState<string>("all");
 
-  const isAdmin = session?.user?.isAdmin;
+  const isAdmin = session?.user?.access_level === "administrator";
 
   const fetchEmployees = useCallback(async () => {
     try {

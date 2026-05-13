@@ -132,7 +132,7 @@ export const userDefaultValues = {
   name: "",
   email: "",
   password: "",
-  isAdmin: false
+  access_level: undefined
 };
 
 export const priceDefaultValues = {

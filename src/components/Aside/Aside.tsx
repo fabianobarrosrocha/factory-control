@@ -20,7 +20,7 @@ import { Skeleton } from "../ui/skeleton";
 
 const Aside: React.FC = () => {
   const session = useSession();
-  const isAdmin = session.data?.user?.isAdmin;
+  const isAdmin = session.data?.user?.access_level === "administrator";
 
   return (
     <div className="h-screen p-5">

@@ -43,7 +43,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         idToken: token.idToken,
         name: session.user.name,
         email: session.user.email,
-        isAdmin: token.isAdmin,
+        access_level: token.access_level,
         accessToken: token.accessToken
       };
       return session;
@@ -53,7 +53,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (user) {
         token.idToken = user.id;
         token.accessToken = user.accessToken;
-        token.isAdmin = user.isAdmin;
+        token.access_level = user.access_level;
       }
       return token;
     }

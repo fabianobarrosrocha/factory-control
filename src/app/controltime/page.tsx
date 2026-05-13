@@ -19,7 +19,7 @@ function Page() {
         <main className="main-layout">
           <Header title="Horarios Padrao" />
 
-          {session.user.isAdmin && <TimeConfigTable />}
+          {session.user.access_level === "administrator" && <TimeConfigTable />}
         </main>
       </div>
     );

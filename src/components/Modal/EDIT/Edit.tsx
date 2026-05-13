@@ -88,11 +88,11 @@ import { ProductReturn } from "@/types/product_return.types";
 import { PaymentRegister } from "@/types/payment.types";
 import { FormFieldsPayment } from "../FormFieldsObjectsEdit/FormFieldsPayment";
 import { FormFieldsPrice } from "../FormFieldsObjectsEdit/FormFieldsPrice";
-import { User } from "@/types/user.types";
+import { User, ACCESS_LEVELS, ACCESS_LEVEL_LABELS } from "@/types/user.types";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from "@/components/ui/password-input";
-import { Checkbox } from "@/components/ui/checkbox";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Price } from "@/types/price.types";
 import { MessageConfig } from "@/types/message.types";
 import { Packaging } from "@/types/packaging.types";
@@ -484,14 +484,27 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="isAdmin" className="text-right">
-              Administrador
+            <Label htmlFor="access_level" className="text-right">
+              Nível de Acesso
             </Label>
             <div className="col-span-3">
               <Controller
-                name="isAdmin"
+                name="access_level"
                 control={form.control}
-                render={({ field }) => <Checkbox id="isAdmin" checked={field.value} onCheckedChange={field.onChange} />}
+                render={({ field }) => (
+                  <Select onValueChange={field.onChange} value={field.value ?? undefined}>
+                    <SelectTrigger id="access_level">
+                      <SelectValue placeholder="Selecione o nível de acesso" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {ACCESS_LEVELS.map((level) => (
+                        <SelectItem key={level} value={level}>
+                          {ACCESS_LEVEL_LABELS[level]}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                )}
               />
             </div>
           </div>

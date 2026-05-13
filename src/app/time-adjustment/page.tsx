@@ -21,7 +21,7 @@ function Page() {
   const [pendingRequests, setPendingRequests] = useState<TimeAdjustmentRequest[]>([]);
   const [allRequests, setAllRequests] = useState<TimeAdjustmentRequest[]>([]);
 
-  const isAdmin = session?.user?.isAdmin;
+  const isAdmin = session?.user?.access_level === "administrator";
   const employeeId = session?.user?.idToken;
 
   const fetchMyRequests = useCallback(async () => {
