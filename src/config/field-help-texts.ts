@@ -57,11 +57,11 @@ export const fieldHelpTexts = {
 
   // ==================== PRODUCT ====================
   product: {
-    name: "Nome do produto que será exibido no sistema e em documentos.",
-    model: "Modelo ou versão do produto.",
-    size: "Tamanho ou dimensões do produto.",
-    character: "Características especiais ou variação do produto.",
-    moldes: "Quantidade de moldes necessários para produção.",
+    type: "Tipo do produto. Bojo exige um molde; Dublado não.",
+    inner_color_id: "Cor interna da peça.",
+    foam_id: "Espuma utilizada na peça.",
+    outer_color_id: "Cor externa da peça.",
+    mold_id: "Molde aplicado (somente para Bojo).",
     status: "Define se o produto está ativo ou descontinuado."
   },
 

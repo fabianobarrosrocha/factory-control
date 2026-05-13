@@ -17,6 +17,7 @@ import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
 import { Product } from "@/types/product.types";
 import { Vendor } from "@/types/vendor.types";
+import { getProductFullLabel } from "@/utils/product-label";
 import { StorageLocationSelect } from "../StorageLocationSelect";
 
 interface FormFieldsMaterialOrder {
@@ -146,8 +147,7 @@ export const FormFieldsMaterialOrder: React.FC<FormFieldsMaterialOrder> = ({ for
               <SelectContent>
                 {products.map((product) => (
                   <SelectItem key={product.id} value={String(product.id)}>
-                    {product.name}
-                    {product.model ? ` — ${product.model}` : ""}
+                    {getProductFullLabel(product)}
                   </SelectItem>
                 ))}
               </SelectContent>

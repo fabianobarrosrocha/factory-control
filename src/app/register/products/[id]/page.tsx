@@ -8,7 +8,7 @@ import { useRouter } from "next/navigation";
 import { MoreVertical } from "lucide-react";
 import DataList from "@/components/DataList";
 import Modal from "@/components/Modal/Modal";
-import { Product } from "@/types/product.types";
+import { Product, PRODUCT_TYPE_LABELS } from "@/types/product.types";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
+import { getProductLabel, getProductSku } from "@/utils/product-label";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product>();
@@ -44,11 +45,14 @@ export default function Page({ params }: { params: { id: string } }) {
           <Header title="Informações do Produto" backTo="/register/products" />
           {product && (
             <div>
-              <Card className="overflow-hidden" x-chunk="dashboard-05-chunk-4">
+              <Card className="overflow-hidden">
                 <CardHeader className="flex flex-row items-start bg-muted/50">
                   <div className="grid gap-0.5">
-                    <CardTitle className="group flex items-center gap-2 text-lg">{product.name}</CardTitle>
+                    <CardTitle className="group flex items-center gap-2 text-lg">
+                      {getProductLabel(product)}
+                    </CardTitle>
                     <CardDescription>
+                      <div className="text-xs text-muted-foreground">SKU: {getProductSku(product)}</div>
                       <div className="text-xs text-muted-foreground">
                         Data de registro: {new Date(product.created_at).toLocaleString()}
                       </div>
@@ -59,7 +63,7 @@ export default function Page({ params }: { params: { id: string } }) {
                       <DropdownMenuTrigger asChild>
                         <Button size="icon" variant="outline" className="h-8 w-8">
                           <MoreVertical className="h-3.5 w-3.5" />
-                          <span className="sr-only">More</span>
+                          <span className="sr-only">Mais</span>
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
@@ -89,9 +93,7 @@ export default function Page({ params }: { params: { id: string } }) {
                             nameModal="produto"
                             rowData={product}
                             idRowData={product.id}
-                            onDelete={() => {
-                              router.push("/register/products");
-                            }}
+                            onDelete={() => router.push("/register/products")}
                           />
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -100,38 +102,19 @@ export default function Page({ params }: { params: { id: string } }) {
                 </CardHeader>
                 <CardContent className="p-6 text-sm">
                   <div className="grid gap-3">
-                    <div className="font-semibold">Informações do Produto</div>
-                    {product && (
-                      <DataList
-                        items={[
-                          { title: "Identificador", data: product.id.toString() },
-                          { title: "Nome", data: product.name },
-                          { title: "Modelo", data: product.model },
-                          { title: "Tamanho", data: product.size },
-                          { title: "Caracteristica", data: product.character },
-                          { title: "Moldes", data: product.moldes.toString() },
-                          { title: "Equivalencia", data: product.equivalency.toString() }
-                        ]}
-                      />
-                    )}
-                  </div>
-                  <Separator className="my-4" />
-                  <div className="grid gap-3">
-                    <div className="font-semibold">Informações de Venda e Faturamento</div>
-                    {product && (
-                      <DataList
-                        items={[
-                          { title: "% de Vendas", data: `${product.sales}%` },
-                          { title: "% de Vendas em volume", data: `${product.volume_sales}%` },
-                          { title: "% do Faturamento", data: `${product.invoicing}%` }
-                        ]}
-                      />
-                    )}
-                  </div>
-                  <Separator className="my-4" />
-                  <div className="grid gap-3">
-                    <div className="font-semibold">Outras informações</div>
-                    {product && <DataList items={[{ title: "Status", data: product.status }]} />}
+                    <div className="font-semibold">Atributos</div>
+                    <DataList
+                      items={[
+                        { title: "Identificador", data: product.id.toString() },
+                        { title: "SKU", data: getProductSku(product) },
+                        { title: "Tipo", data: PRODUCT_TYPE_LABELS[product.type] ?? product.type },
+                        { title: "Cor interna", data: product.inner_color?.name ?? "—" },
+                        { title: "Espuma", data: product.foam?.name ?? "—" },
+                        { title: "Cor externa", data: product.outer_color?.name ?? "—" },
+                        { title: "Molde", data: product.mold?.name ?? "—" },
+                        { title: "Status", data: String(product.status) }
+                      ]}
+                    />
                   </div>
                 </CardContent>
                 <CardFooter className="flex flex-row items-center border-t bg-muted/50 px-6 py-3">

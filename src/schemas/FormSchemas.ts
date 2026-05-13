@@ -167,35 +167,58 @@ export const formProcedureSchema = z.object({
   status: z.nativeEnum(Status)
 });
 
-export const formProductSchema = z.object({
-  name: z.string().min(2, {
-    message: "Informe o nome."
-  }),
-  model: z.string().min(1, {
-    message: "Informe o modelo."
-  }),
-  size: z.string().min(1, {
-    message: "Informe o tamanho."
-  }),
-  sales: z.number({
-    coerce: true,
-    invalid_type_error: "Informe o número de vendas."
-  }),
-  volume_sales: z.number({
-    coerce: true,
-    invalid_type_error: "Informe o volume de vendas."
-  }),
-  invoicing: z.number({ coerce: true }).positive({
-    message: "Informe o valor das compras."
-  }),
-  character: z.string(),
-  moldes: z.number({ coerce: true, invalid_type_error: "Informe os moldes." }),
-  equivalency: z.number({
-    coerce: true,
-    invalid_type_error: "Informe a equivalência."
-  }),
-  status: z.nativeEnum(Status)
-});
+export const formProductSchema = z
+  .object({
+    type: z.enum(["bojo", "dublado"] as const, {
+      required_error: "Selecione o tipo de produto.",
+      invalid_type_error: "Selecione o tipo de produto."
+    }),
+    inner_color_id: z.number({ coerce: true, invalid_type_error: "Selecione a cor interna." }).positive({
+      message: "Selecione a cor interna."
+    }),
+    foam_id: z.number({ coerce: true, invalid_type_error: "Selecione a espuma." }).positive({
+      message: "Selecione a espuma."
+    }),
+    outer_color_id: z.number({ coerce: true, invalid_type_error: "Selecione a cor externa." }).positive({
+      message: "Selecione a cor externa."
+    }),
+    mold_id: z
+      .number({ coerce: true })
+      .positive()
+      .optional()
+      .nullable(),
+    status: z.nativeEnum(Status)
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "bojo" && !data.mold_id) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Bojo exige um molde.",
+        path: ["mold_id"]
+      });
+    }
+  });
+
+export const formProductGenerateSchema = z
+  .object({
+    type: z.enum(["bojo", "dublado"] as const, {
+      required_error: "Selecione o tipo de produto."
+    }),
+    inner_color_ids: z.array(z.number()).min(1, { message: "Selecione ao menos uma cor interna." }),
+    foam_ids: z.array(z.number()).min(1, { message: "Selecione ao menos uma espuma." }),
+    outer_color_ids: z.array(z.number()).min(1, { message: "Selecione ao menos uma cor externa." }),
+    mold_ids: z.array(z.number()).optional(),
+    status: z.nativeEnum(Status)
+  })
+  .superRefine((data, ctx) => {
+    if (data.type === "bojo" && (!data.mold_ids || data.mold_ids.length === 0)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Bojo exige ao menos um molde.",
+        path: ["mold_ids"]
+      });
+    }
+  });
 
 export const formVendorSchema = z
   .object({

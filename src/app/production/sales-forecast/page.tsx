@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import DynamicTable from "@/components/DynamicTable";
 import { DataRow, TableColumn } from "@/models/TableColumn";
 import { SalesForecast, SalesForecastStatusLabel } from "@/types/sales-forecast.types";
+import { getProductLabel } from "@/utils/product-label";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -59,7 +60,10 @@ export default function Page() {
       header: "Produto",
       accessorKey: "product.name",
       sortable: true,
-      cell: ({ row }: { row: Row<DataRow> }) => (row.original as SalesForecast).product?.name ?? "-"
+      cell: ({ row }: { row: Row<DataRow> }) => {
+        const product = (row.original as SalesForecast).product;
+        return product ? getProductLabel(product as any) : "-";
+      }
     },
     { header: "Quantidade", accessorKey: "quantity", sortable: true },
     {

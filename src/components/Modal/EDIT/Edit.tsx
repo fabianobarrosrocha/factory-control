@@ -382,6 +382,15 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
           vendor_id: defaults?.vendor?.id ?? defaults?.vendor_id,
           date: defaults?.date ? new Date(defaults.date) : new Date()
         };
+      case "Product":
+        return {
+          ...defaults,
+          type: defaults?.type,
+          inner_color_id: defaults?.inner_color_id ?? defaults?.inner_color?.id,
+          foam_id: defaults?.foam_id ?? defaults?.foam?.id,
+          outer_color_id: defaults?.outer_color_id ?? defaults?.outer_color?.id,
+          mold_id: defaults?.mold_id ?? defaults?.mold?.id ?? undefined
+        };
       case "ProductReturn":
         return {
           product_return: {

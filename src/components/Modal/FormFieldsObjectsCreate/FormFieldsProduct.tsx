@@ -1,196 +1,203 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
-import { Input } from "@/components/ui/input";
-import { MoneyInput } from "@/components/ui/money-input";
+import axios from "axios";
 import { Status } from "@/types/common.types";
 import { UseFormReturn } from "react-hook-form";
-import { Textarea } from "@/components/ui/textarea";
+import { Color } from "@/types/color.types";
+import { Foam } from "@/types/foam.types";
+import { Mold } from "@/types/mold.types";
+import { PRODUCT_TYPE_LABELS, PRODUCT_TYPES, ProductType } from "@/types/product.types";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
 
-interface FormFieldsProduct {
+interface FormFieldsProductProps {
   form: UseFormReturn;
-}
-
-type EnumType<T> = {
-  [key: string]: T;
-};
-
-function mapEnumToSelectItems<T extends string>(enumObj: EnumType<T>): JSX.Element[] {
-  return Object.keys(enumObj).map((key) => (
-    <SelectItem key={key} value={enumObj[key]}>
-      {String(enumObj[key])}
-    </SelectItem>
-  ));
 }
 
 const help = fieldHelpTexts.product;
 
-export const FormFieldsProduct: React.FC<FormFieldsProduct> = ({ form }) => {
+export const FormFieldsProduct: React.FC<FormFieldsProductProps> = ({ form }) => {
+  const [colors, setColors] = useState<Color[]>([]);
+  const [foams, setFoams] = useState<Foam[]>([]);
+  const [molds, setMolds] = useState<Mold[]>([]);
+
+  const typeValue = form.watch("type") as ProductType | undefined;
+
+  useEffect(() => {
+    const fetchCatalogs = async () => {
+      try {
+        const [colorsResp, foamsResp, moldsResp] = await Promise.all([
+          axios.get("/api/colors"),
+          axios.get("/api/foams"),
+          axios.get("/api/molds")
+        ]);
+        setColors(colorsResp.data ?? []);
+        setFoams(foamsResp.data ?? []);
+        setMolds(moldsResp.data ?? []);
+      } catch (err) {
+        console.error("Erro ao buscar catálogos:", err);
+      }
+    };
+    fetchCatalogs();
+  }, []);
+
+  useEffect(() => {
+    if (typeValue === "dublado") {
+      form.setValue("mold_id", undefined);
+    }
+  }, [typeValue, form]);
+
   return (
     <>
       <FormField
-        key="name"
+        key="type"
         control={form.control}
-        name="name"
+        name="type"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="nome" label="Nome" helpText={help.name} />
+            <FormLabelWithHelp htmlFor="type" label="Tipo" helpText={help.type} />
             <FormControl>
-              <Input id="name" {...field} placeholder="Insira o nome" />
+              <RadioGroup value={field.value ?? ""} onValueChange={field.onChange} className="flex gap-6 pt-2">
+                {PRODUCT_TYPES.map((t) => (
+                  <FormItem key={t} className="flex items-center space-x-3 space-y-0">
+                    <FormControl>
+                      <RadioGroupItem value={t} id={`type-${t}`} />
+                    </FormControl>
+                    <FormLabel htmlFor={`type-${t}`} className="font-normal">
+                      {PRODUCT_TYPE_LABELS[t]}
+                    </FormLabel>
+                  </FormItem>
+                ))}
+              </RadioGroup>
             </FormControl>
             <FormMessage />
           </FormItem>
         )}
       />
+
       <FormField
-        key="model"
+        key="inner_color_id"
         control={form.control}
-        name="model"
+        name="inner_color_id"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="nome" label="Modelo" helpText={help.model} />
-            <FormControl>
-              <Input id="model" {...field} placeholder="Insira o modelo" />
-            </FormControl>
+            <FormLabelWithHelp htmlFor="inner_color_id" label="Cor interna" helpText={help.inner_color_id} />
+            <Select
+              value={field.value ? String(field.value) : undefined}
+              onValueChange={(value) => field.onChange(Number(value))}
+            >
+              <FormControl>
+                <SelectTrigger id="inner_color_id">
+                  <SelectValue placeholder="Selecione a cor interna" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {colors.map((c) => (
+                  <SelectItem key={c.id} value={String(c.id)}>
+                    {c.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <FormMessage />
           </FormItem>
         )}
       />
+
       <FormField
-        key="size"
+        key="foam_id"
         control={form.control}
-        name="size"
+        name="foam_id"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="size" label="Tamanho" helpText={help.size} />
-            <FormControl>
-              <Input id="name" {...field} placeholder="Insira o tamanho" />
-            </FormControl>
+            <FormLabelWithHelp htmlFor="foam_id" label="Espuma" helpText={help.foam_id} />
+            <Select
+              value={field.value ? String(field.value) : undefined}
+              onValueChange={(value) => field.onChange(Number(value))}
+            >
+              <FormControl>
+                <SelectTrigger id="foam_id">
+                  <SelectValue placeholder="Selecione a espuma" />
+                </SelectTrigger>
+              </FormControl>
+              <SelectContent>
+                {foams.map((f) => (
+                  <SelectItem key={f.id} value={String(f.id)}>
+                    {f.name} {f.size ? `· ${f.size}` : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
             <FormMessage />
           </FormItem>
         )}
       />
+
       <FormField
-        key="sales"
+        key="outer_color_id"
         control={form.control}
-        name="sales"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="sales" label="Número de vendas" helpText={help.sales} />
+        name="outer_color_id"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="outer_color_id" label="Cor externa" helpText={help.outer_color_id} />
+            <Select
+              value={field.value ? String(field.value) : undefined}
+              onValueChange={(value) => field.onChange(Number(value))}
+            >
               <FormControl>
-                <Input
-                  id="sales"
-                  type="number"
-                  {...field}
-                  {...form.register("sales", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira o número de vendas"
-                />
+                <SelectTrigger id="outer_color_id">
+                  <SelectValue placeholder="Selecione a cor externa" />
+                </SelectTrigger>
               </FormControl>
+              <SelectContent>
+                {colors.map((c) => (
+                  <SelectItem key={c.id} value={String(c.id)}>
+                    {c.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      {typeValue === "bojo" && (
+        <FormField
+          key="mold_id"
+          control={form.control}
+          name="mold_id"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabelWithHelp htmlFor="mold_id" label="Molde" helpText={help.mold_id} />
+              <Select
+                value={field.value ? String(field.value) : undefined}
+                onValueChange={(value) => field.onChange(Number(value))}
+              >
+                <FormControl>
+                  <SelectTrigger id="mold_id">
+                    <SelectValue placeholder="Selecione o molde" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {molds.map((m) => (
+                    <SelectItem key={m.id} value={String(m.id)}>
+                      {m.name} {m.size ? `· ${m.size}` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
-          );
-        }}
-      />
-      <FormField
-        key="volume_sales"
-        control={form.control}
-        name="volume_sales"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp
-                htmlFor="volume_sales"
-                label="Número do volume de vendas"
-                helpText={help.volumeSales}
-              />
-              <FormControl>
-                <Input
-                  id="volume_sales"
-                  type="number"
-                  {...field}
-                  {...form.register("volume_sales", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira o número do volúme de vendas"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
-      <FormField
-        key="invoicing"
-        control={form.control}
-        name="invoicing"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="invoicing" label="Faturamento" helpText={help.invoicing} />
-              <FormControl>
-                <MoneyInput id="invoicing" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
-      <FormField
-        key="moldes"
-        control={form.control}
-        name="moldes"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="moldes" label="Quantidade de moldes" helpText={help.moldes} />
-              <FormControl>
-                <Input
-                  id="moldes"
-                  type="number"
-                  {...field}
-                  {...form.register("moldes", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira os moldes"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
-      <FormField
-        key="equivalency"
-        control={form.control}
-        name="equivalency"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="equivalency" label="Equivalência" helpText={help.equivalency} />
-              <FormControl>
-                <Input
-                  id="equivalency"
-                  type="number"
-                  {...field}
-                  {...form.register("equivalency", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira a equivalência"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
-      />
+          )}
+        />
+      )}
+
       <FormField
         key="status"
         control={form.control}
@@ -200,26 +207,18 @@ export const FormFieldsProduct: React.FC<FormFieldsProduct> = ({ form }) => {
             <FormLabelWithHelp htmlFor="status" label="Status" helpText={help.status} />
             <Select onValueChange={field.onChange} value={field.value}>
               <FormControl>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecione um status do produto" />
+                <SelectTrigger id="status">
+                  <SelectValue placeholder="Selecione o status" />
                 </SelectTrigger>
               </FormControl>
-              <SelectContent>{mapEnumToSelectItems(Status)}</SelectContent>
+              <SelectContent>
+                {Object.values(Status).map((s) => (
+                  <SelectItem key={s} value={s}>
+                    {s}
+                  </SelectItem>
+                ))}
+              </SelectContent>
             </Select>
-            <FormMessage />
-          </FormItem>
-        )}
-      />
-      <FormField
-        key="character"
-        control={form.control}
-        name="character"
-        render={({ field }) => (
-          <FormItem>
-            <FormLabelWithHelp htmlFor="character" label="Característica" helpText={help.character} />
-            <FormControl>
-              <Textarea id="name" {...field} placeholder="Insira a característica" />
-            </FormControl>
             <FormMessage />
           </FormItem>
         )}

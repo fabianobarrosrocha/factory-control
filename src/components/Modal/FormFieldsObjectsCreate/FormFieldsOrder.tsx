@@ -15,6 +15,7 @@ import { Select, SelectItem, SelectContent, SelectTrigger, SelectValue } from "@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Product } from "@/types/product.types";
 import { Status } from "@/types/common.types";
+import { getProductFullLabel } from "@/utils/product-label";
 import { OrderItem } from "@/types/order-item.types";
 import axios from "axios";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
@@ -248,7 +249,7 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
                         <SelectContent>
                           {products.map((p) => (
                             <SelectItem key={p.id} value={p.id.toString()}>
-                              {p.name}
+                              {getProductFullLabel(p)}
                             </SelectItem>
                           ))}
                         </SelectContent>

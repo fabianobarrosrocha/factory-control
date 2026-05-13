@@ -50,15 +50,20 @@ export const procedureDefaultValues = {
 };
 
 export const productDefaultValues = {
-  name: "",
-  model: "",
-  size: "",
-  sales: "",
-  volume_sales: "",
-  invoicing: "",
-  character: "",
-  moldes: "",
-  equivalency: "",
+  type: undefined,
+  inner_color_id: undefined,
+  foam_id: undefined,
+  outer_color_id: undefined,
+  mold_id: undefined,
+  status: undefined
+};
+
+export const productGenerateDefaultValues = {
+  type: "bojo" as const,
+  inner_color_ids: [] as number[],
+  foam_ids: [] as number[],
+  outer_color_ids: [] as number[],
+  mold_ids: [] as number[],
   status: undefined
 };
 
