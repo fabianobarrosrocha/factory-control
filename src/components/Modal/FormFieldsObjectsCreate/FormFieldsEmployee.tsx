@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Button } from "@/components/ui/button";
 import { UseFormReturn } from "react-hook-form";
 import { Calendar } from "@/components/ui/calendar";
@@ -122,10 +123,7 @@ export const FormFieldsEmployee: React.FC<FormFieldsEmployee> = ({ form }) => {
             <FormItem>
               <FormLabelWithHelp htmlFor="salary" label="Salário" helpText={help.salary} optional />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input id="salary" type="number" {...field} className="w-full rounded-lg bg-background pl-8 pt-2.5" />
-                </div>
+                <MoneyInput id="salary" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>
