@@ -266,7 +266,8 @@ export const colorDefaultValues = {
 export const foamDefaultValues = {
   name: "",
   short_code: "",
-  density: "",
+  size: "",
+  description: "",
   status: undefined
 };
 

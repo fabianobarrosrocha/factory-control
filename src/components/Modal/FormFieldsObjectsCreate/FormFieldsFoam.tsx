@@ -64,14 +64,28 @@ export const FormFieldsFoam: React.FC<FormFieldsFoamProps> = ({ form }) => {
         )}
       />
       <FormField
-        key="density"
+        key="size"
         control={form.control}
-        name="density"
+        name="size"
         render={({ field }) => (
           <FormItem>
-            <FormLabelWithHelp htmlFor="density" label="Densidade / descrição" helpText={help.density} optional />
+            <FormLabelWithHelp htmlFor="size" label="Tamanho" helpText={help.size} />
             <FormControl>
-              <Input id="density" {...field} placeholder="ex. 28kg/m³ — 30mm" />
+              <Input id="size" {...field} placeholder="ex. P, M, G" />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="description"
+        control={form.control}
+        name="description"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="description" label="Descrição" helpText={help.description} optional />
+            <FormControl>
+              <Input id="description" {...field} placeholder="ex. 28kg/m³ — densidade leve" />
             </FormControl>
             <FormMessage />
           </FormItem>

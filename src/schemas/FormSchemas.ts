@@ -593,7 +593,8 @@ export const formColorSchema = z.object({
 export const formFoamSchema = z.object({
   name: z.string().min(2, { message: "Informe o nome da espuma." }),
   short_code: shortCodeSchema,
-  density: z.string().optional(),
+  size: z.string().min(1, { message: "Informe o tamanho (P, M, G, etc)." }),
+  description: z.string().optional(),
   status: z.nativeEnum(Status)
 });
 

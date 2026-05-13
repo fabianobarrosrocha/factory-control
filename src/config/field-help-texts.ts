@@ -77,7 +77,8 @@ export const fieldHelpTexts = {
   foam: {
     name: "Nome da espuma (ex: D28, D33).",
     short_code: "Sigla de 2-5 letras/dígitos usada no SKU do produto (ex: D28).",
-    density: "Densidade ou descrição complementar (ex: 28kg/m³).",
+    size: "Tamanho da espuma (ex: P, M, G).",
+    description: "Descrição complementar — pode incluir densidade, espessura, etc.",
     status: "Define se a espuma está disponível ou suspensa."
   },
 

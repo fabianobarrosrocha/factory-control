@@ -30,7 +30,10 @@ export const typeRegisterTranslations: Record<string, string> = {
   LabelPrint: "Impressão de Etiqueta",
   Location: "Localização",
   TimeConfiguration: "Configuração de Tempo",
-  TimeAdjustmentRequest: "Solicitação de Ajuste de Horas"
+  TimeAdjustmentRequest: "Solicitação de Ajuste de Horas",
+  Color: "Cor",
+  Foam: "Espuma",
+  Mold: "Molde"
 };
 
 /**
