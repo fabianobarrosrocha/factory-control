@@ -353,6 +353,13 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
           order_id: defaults?.order?.id,
           date: defaults?.date ? new Date(defaults.date) : new Date()
         };
+      case "MaterialOrder":
+        return {
+          ...defaults,
+          product_id: defaults?.product?.id ?? defaults?.product_id,
+          vendor_id: defaults?.vendor?.id ?? defaults?.vendor_id,
+          date: defaults?.date ? new Date(defaults.date) : new Date()
+        };
       case "ProductReturn":
         return {
           product_return: {

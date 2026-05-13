@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
@@ -10,9 +11,12 @@ import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
+import { Product } from "@/types/product.types";
+import { Vendor } from "@/types/vendor.types";
 import { StorageLocationSelect } from "../StorageLocationSelect";
 
 interface FormFieldsMaterialOrder {
@@ -22,6 +26,25 @@ interface FormFieldsMaterialOrder {
 const help = fieldHelpTexts.materialOrder;
 
 export const FormFieldsMaterialOrder: React.FC<FormFieldsMaterialOrder> = ({ form }) => {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [vendors, setVendors] = useState<Vendor[]>([]);
+
+  useEffect(() => {
+    const fetchOptions = async () => {
+      try {
+        const [productsResp, vendorsResp] = await Promise.all([
+          axios.get("/api/products"),
+          axios.get("/api/vendors")
+        ]);
+        setProducts(productsResp.data.data ?? []);
+        setVendors(vendorsResp.data.data ?? []);
+      } catch (err) {
+        console.error("Erro ao buscar produtos/fornecedores:", err);
+      }
+    };
+    fetchOptions();
+  }, []);
+
   return (
     <>
       <FormField
@@ -108,50 +131,60 @@ export const FormFieldsMaterialOrder: React.FC<FormFieldsMaterialOrder> = ({ for
         key="product_id"
         control={form.control}
         name="product_id"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="product_id" label="ID do produto" helpText={help.product_id} />
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="product_id" label="Produto" helpText={help.product_id} />
+            <Select
+              value={field.value ? String(field.value) : undefined}
+              onValueChange={(value) => field.onChange(Number(value))}
+            >
               <FormControl>
-                <Input
-                  id="product_id"
-                  type="number"
-                  {...field}
-                  {...form.register("product_id", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira o ID do produto"
-                />
+                <SelectTrigger id="product_id">
+                  <SelectValue placeholder="Selecione o produto" />
+                </SelectTrigger>
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
+              <SelectContent>
+                {products.map((product) => (
+                  <SelectItem key={product.id} value={String(product.id)}>
+                    {product.name}
+                    {product.model ? ` — ${product.model}` : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
       />
 
       <FormField
         key="vendor_id"
         control={form.control}
         name="vendor_id"
-        render={({ field }) => {
-          return (
-            <FormItem>
-              <FormLabelWithHelp htmlFor="vendor_id" label="ID do fornecedor" helpText={help.vendor_id} />
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="vendor_id" label="Fornecedor" helpText={help.vendor_id} />
+            <Select
+              value={field.value ? String(field.value) : undefined}
+              onValueChange={(value) => field.onChange(Number(value))}
+            >
               <FormControl>
-                <Input
-                  id="vendor_id"
-                  type="number"
-                  {...field}
-                  {...form.register("vendor_id", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira o ID do fornecedor"
-                />
+                <SelectTrigger id="vendor_id">
+                  <SelectValue placeholder="Selecione o fornecedor" />
+                </SelectTrigger>
               </FormControl>
-              <FormMessage />
-            </FormItem>
-          );
-        }}
+              <SelectContent>
+                {vendors.map((vendor) => (
+                  <SelectItem key={vendor.id} value={String(vendor.id)}>
+                    {vendor.name}
+                    {vendor.store_name ? ` — ${vendor.store_name}` : ""}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <FormMessage />
+          </FormItem>
+        )}
       />
     </>
   );
