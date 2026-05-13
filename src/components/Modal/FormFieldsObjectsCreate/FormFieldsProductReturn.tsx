@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 
+import axios from "axios";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
@@ -12,9 +13,10 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { getBooleanLabel } from "@/services/formatInputs";
+import { Order } from "@/types/order.types";
 import { ReturnedLabel } from "@/types/returned_labels.types";
-import { Select, SelectContent, SelectTrigger, SelectValue } from "@radix-ui/react-select";
 import { FormLabelWithHelp } from "@/components/ui/form-label-with-help";
 import { fieldHelpTexts } from "@/config/field-help-texts";
 import { StorageLocationSelect } from "../StorageLocationSelect";
@@ -27,22 +29,19 @@ const help = fieldHelpTexts.productReturn;
 
 export const FormFieldsProductReturn: React.FC<FormFieldsProductReturn> = ({ form }) => {
   const [selectedLabels, setSelectedLabels] = useState<ReturnedLabel[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
 
   useEffect(() => {
-    const formData = form.getValues();
-    console.log("Form Structure:", {
-      product_return: {
-        date: formData.product_return?.date,
-        order_id: formData.product_return?.order_id,
-        replacement_necessary: formData.product_return?.replacement_necessary,
-        resold: formData.product_return?.resold,
-        return_reason: formData.product_return?.return_reason
-      },
-      returned_labels: formData.returned_labels
-    });
-
-    console.log("Validation State:", form.formState.errors);
-  }, [form]);
+    const fetchOrders = async () => {
+      try {
+        const resp = await axios.get("/api/orders");
+        setOrders(resp.data.data ?? []);
+      } catch (err) {
+        console.error("Erro ao buscar pedidos:", err);
+      }
+    };
+    fetchOrders();
+  }, []);
 
   useEffect(() => {
     form.setValue("returned_labels", selectedLabels);
@@ -191,18 +190,33 @@ export const FormFieldsProductReturn: React.FC<FormFieldsProductReturn> = ({ for
         render={({ field }) => {
           return (
             <FormItem>
-              <FormLabelWithHelp htmlFor="product_return.order_id" label="ID do pedido" helpText={help.order_id} />
-              <FormControl>
-                <Input
-                  id="product_return.order_id"
-                  type="number"
-                  {...field}
-                  {...form.register("product_return.order_id", {
-                    valueAsNumber: true
-                  })}
-                  placeholder="Insira o ID do pedido"
-                />
-              </FormControl>
+              <FormLabelWithHelp htmlFor="product_return.order_id" label="Pedido" helpText={help.order_id} />
+              <Select
+                value={field.value ? String(field.value) : undefined}
+                onValueChange={(value) => {
+                  const orderId = Number(value);
+                  field.onChange(orderId);
+                  const selectedOrder = orders.find((o) => o.id === orderId);
+                  if (selectedOrder?.date) {
+                    form.setValue("product_return.date", new Date(selectedOrder.date));
+                  }
+                }}
+              >
+                <FormControl>
+                  <SelectTrigger id="product_return.order_id">
+                    <SelectValue placeholder="Selecione o pedido" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  {orders.map((order) => (
+                    <SelectItem key={order.id} value={String(order.id)}>
+                      {`Pedido #${order.id}`}
+                      {order.customer?.name ? ` — ${order.customer.name}` : ""}
+                      {order.date ? ` (${format(new Date(order.date), "dd/MM/yyyy")})` : ""}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           );
