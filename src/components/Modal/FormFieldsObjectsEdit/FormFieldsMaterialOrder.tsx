@@ -37,8 +37,8 @@ export const FormFieldsMaterialOrder: React.FC<FormFieldsMaterialOrder> = ({ for
           axios.get("/api/products"),
           axios.get("/api/vendors")
         ]);
-        setProducts(productsResp.data.data ?? []);
-        setVendors(vendorsResp.data.data ?? []);
+        setProducts(Array.isArray(productsResp.data) ? productsResp.data : productsResp.data?.data ?? []);
+        setVendors(Array.isArray(vendorsResp.data) ? vendorsResp.data : vendorsResp.data?.data ?? []);
       } catch (err) {
         console.error("Erro ao buscar produtos/fornecedores:", err);
       }

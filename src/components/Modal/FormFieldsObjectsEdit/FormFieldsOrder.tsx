@@ -53,7 +53,8 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
     const fetchData = async () => {
       try {
         const resp = await axios.get("/api/products");
-        setProducts(resp.data.data);
+        const list = Array.isArray(resp.data) ? resp.data : resp.data?.data ?? [];
+        setProducts(list);
       } catch (err) {
         console.error(err);
       } finally {
