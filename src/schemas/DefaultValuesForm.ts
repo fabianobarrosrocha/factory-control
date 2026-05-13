@@ -1,11 +1,9 @@
-import { Classification } from "@/types/employee.types";
-
 export const employeeDefaultValues = {
   name: "",
   phone: undefined,
   cel_number: "",
   cpf: "",
-  classification: Classification.funcionario,
+  classification: undefined,
   salary: undefined,
   admission: undefined,
   dismissal_date: undefined

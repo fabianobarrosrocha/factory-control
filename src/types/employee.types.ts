@@ -1,7 +1,8 @@
 export enum Classification {
   funcionario = "Funcionario",
   em_teste = "Em teste",
-  externo = "Externo"
+  externo = "Externo",
+  gerente = "Gerente"
 }
 
 export type Employee = {
