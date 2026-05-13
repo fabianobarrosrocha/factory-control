@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { cpf, cnpj } from "cpf-cnpj-validator";
 import { Status } from "@/types/common.types";
 import { Classification } from "@/types/employee.types";
 import { SalesForecastStatus } from "@/types/sales-forecast.types";
@@ -42,8 +43,14 @@ export const formCustomerSchema = z
     debts: z.number({ coerce: true }).positive({
       message: "Informe o débito."
     }),
-    cpf: z.string().optional(),
-    cnpj: z.string().optional(),
+    cpf: z
+      .string()
+      .optional()
+      .refine((value) => !value || cpf.isValid(value), { message: "CPF inválido." }),
+    cnpj: z
+      .string()
+      .optional()
+      .refine((value) => !value || cnpj.isValid(value), { message: "CNPJ inválido." }),
     deliver: z.string({ message: "Informe se é entrega ou retirada." }),
     pontalti: z.string({ message: "Informe se é da Pontalti." }),
     secondary_line: z.string({ message: "Informe se é linha secundária." }),
@@ -124,9 +131,10 @@ export const formEmployeeSchema = z.object({
   cel_number: z.string().min(11, {
     message: "Informe o número de celular."
   }),
-  cpf: z.string().min(11, {
-    message: "Informe o CPF."
-  }),
+  cpf: z
+    .string()
+    .min(11, { message: "Informe o CPF." })
+    .refine((value) => cpf.isValid(value), { message: "CPF inválido." }),
   classification: z.nativeEnum(Classification),
   birth_date: z.date().optional(),
   salary: z.number({ coerce: true }).optional(),
@@ -196,9 +204,10 @@ export const formVendorSchema = z
     store_name: z.string().min(2, {
       message: "Informe o nome da loja."
     }),
-    cnpj: z.string().min(14, {
-      message: "Informe o CNPJ."
-    }),
+    cnpj: z
+      .string()
+      .min(14, { message: "Informe o CNPJ." })
+      .refine((value) => cnpj.isValid(value), { message: "CNPJ inválido." }),
     cel_number: optionalPhone("Informe um celular válido."),
     phone: optionalPhone("Informe um telefone válido."),
     deliver: z.string({ message: "Informe se é entrega ou retirada." }),
