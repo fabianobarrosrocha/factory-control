@@ -7,6 +7,7 @@ import { Loader2 } from "lucide-react";
 import axios, { AxiosError } from "axios";
 import { useForm, Controller } from "react-hook-form";
 import { useRouter } from "next/navigation";
+import VMasker from "vanilla-masker";
 import { Form } from "@/components/ui/form";
 import { Status } from "@/types/common.types";
 import { Vendor } from "@/types/vendor.types";
@@ -298,6 +299,14 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
   const getFormDefaults = () => {
     const defaults = { ...rowData } as any;
     const booleanToString = (value: unknown) => (typeof value === "boolean" ? String(value) : value);
+    const formatCpf = (value: unknown) =>
+      typeof value === "string" && value ? VMasker.toPattern(value, "999.999.999-99") : "";
+    const formatCnpj = (value: unknown) =>
+      typeof value === "string" && value ? VMasker.toPattern(value, "99.999.999/9999-99") : "";
+    const formatPhone = (value: unknown) =>
+      typeof value === "string" && value ? VMasker.toPattern(value, "(99) 9999-9999") : "";
+    const formatCelPhone = (value: unknown) =>
+      typeof value === "string" && value ? VMasker.toPattern(value, "(99) 99999-9999") : "";
 
     const normalizeSalesForecastStatus = (value: unknown): number | undefined => {
       if (typeof value === "number") return value;
@@ -314,20 +323,28 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
       case "Customer":
         return {
           ...defaults,
-          phone: defaults?.phone ?? "",
-          cel_number: defaults?.cel_number ?? "",
+          phone: formatPhone(defaults?.phone),
+          cel_number: formatCelPhone(defaults?.cel_number),
           email: defaults?.email ?? "",
-          cpf: defaults?.cpf ?? "",
-          cnpj: defaults?.cnpj ?? "",
+          cpf: formatCpf(defaults?.cpf),
+          cnpj: formatCnpj(defaults?.cnpj),
           deliver: booleanToString(defaults?.deliver),
           pontalti: booleanToString(defaults?.pontalti),
           secondary_line: booleanToString(defaults?.secondary_line)
         };
+      case "Employee":
+        return {
+          ...defaults,
+          phone: formatPhone(defaults?.phone),
+          cel_number: formatCelPhone(defaults?.cel_number),
+          cpf: formatCpf(defaults?.cpf)
+        };
       case "Vendor":
         return {
           ...defaults,
-          phone: defaults?.phone ?? "",
-          cel_number: defaults?.cel_number ?? "",
+          phone: formatPhone(defaults?.phone),
+          cel_number: formatCelPhone(defaults?.cel_number),
+          cnpj: formatCnpj(defaults?.cnpj),
           deliver: booleanToString(defaults?.deliver)
         };
       case "Order":
