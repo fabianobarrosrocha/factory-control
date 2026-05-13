@@ -350,10 +350,8 @@ export const formTimeConfigurationSchema = z.object({
 });
 
 export const formOrderSchema = z.object({
-  final_price: z.number({ coerce: true }).positive({
-    message: "Informe o faturamento."
-  }),
-  discount: z.number({ coerce: true }).min(0, { message: "O desconto não pode ser negativo." }).optional().default(0),
+  final_price: z.number({ coerce: true }).min(0),
+  discount: z.number({ coerce: true }).min(0).optional().default(0),
   date: z.date({ required_error: "Informe a data." }),
   customer_id: z.number({ coerce: true }).positive({
     message: "Informe o Id do cliente."
@@ -361,8 +359,10 @@ export const formOrderSchema = z.object({
   products: z
     .array(
       z.object({
-        product_id: z.number({ coerce: true }),
-        quantity: z.number({ coerce: true })
+        product_id: z.number({ coerce: true }).positive({ message: "Selecione um produto." }),
+        quantity: z.number({ coerce: true }).positive({ message: "Informe a quantidade." }),
+        unit_price: z.number({ coerce: true }).min(0, { message: "Preço inválido." }),
+        registered_price: z.number({ coerce: true }).min(0).nullable().optional()
       })
     )
     .nonempty({ message: "Adicione ao menos um produto." })

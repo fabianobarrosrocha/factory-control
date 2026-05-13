@@ -1,6 +1,6 @@
 export type OrderItem = {
-  quantity: number;
   product_id: number;
+  quantity: number;
+  unit_price: number;
+  registered_price?: number | null;
 };
-
-

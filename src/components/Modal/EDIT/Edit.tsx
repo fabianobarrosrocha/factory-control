@@ -373,7 +373,15 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
           ...defaults,
           order_id: defaults?.order?.id,
           discount: defaults?.discount ?? 0,
-          date: defaults?.date ? new Date(defaults.date) : new Date()
+          date: defaults?.date ? new Date(defaults.date) : new Date(),
+          products: Array.isArray(defaults?.products)
+            ? defaults.products.map((it: any) => ({
+                product_id: it.product?.id ?? it.product_id,
+                quantity: it.quantity,
+                unit_price: it.unit_price ?? 0,
+                registered_price: it.registered_price ?? null
+              }))
+            : []
         };
       case "MaterialOrder":
         return {
