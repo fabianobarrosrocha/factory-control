@@ -89,7 +89,11 @@ export const fieldHelpTexts = {
   order: {
     customer_id: "Selecione o cliente que está fazendo o pedido.",
     date: "Data em que o pedido foi realizado.",
-    final_price: "Valor total do pedido em reais."
+    final_price: "Valor total do pedido em reais (calculado automaticamente).",
+    finalPrice: "Valor total do pedido em reais (calculado automaticamente).",
+    customerId: "Selecione o cliente que está fazendo o pedido.",
+    discount: "Desconto aplicado ao total do pedido em reais.",
+    products: "Produtos que compõem este pedido."
   },
 
   // ==================== MATERIAL ORDER ====================

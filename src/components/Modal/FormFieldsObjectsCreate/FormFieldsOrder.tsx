@@ -41,6 +41,10 @@ const help = fieldHelpTexts.order;
 export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedProducts, setSelectedProducts] = useState<OrderItem[]>([]);
+  const [priceCache, setPriceCache] = useState<Record<string, number>>({});
+
+  const customerIdValue = form.watch("customer_id");
+  const discountValue = form.watch("discount");
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -66,8 +70,44 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
   }, []);
 
   useEffect(() => {
-    const formValues = form.getValues();
-  }, [form, selectedProducts]);
+    const customerId = Number(customerIdValue);
+    if (!customerId) return;
+    const productIds = selectedProducts
+      .map((p) => p.product_id)
+      .filter((id): id is number => !!id && id > 0);
+    const missing = productIds.filter((pid) => priceCache[`${pid}:${customerId}`] === undefined);
+    if (missing.length === 0) return;
+
+    const fetchPrices = async () => {
+      const updates: Record<string, number> = {};
+      await Promise.all(
+        missing.map(async (productId) => {
+          try {
+            const resp = await axios.get(`/api/prices/product/${productId}/customer/${customerId}`);
+            const finalPrice = Number(resp.data?.final_price ?? 0);
+            updates[`${productId}:${customerId}`] = finalPrice;
+          } catch (err) {
+            updates[`${productId}:${customerId}`] = 0;
+          }
+        })
+      );
+      setPriceCache((prev) => ({ ...prev, ...updates }));
+    };
+    fetchPrices();
+  }, [selectedProducts, customerIdValue, priceCache]);
+
+  useEffect(() => {
+    const customerId = Number(customerIdValue);
+    if (!customerId) return;
+    const subtotal = selectedProducts.reduce((sum, item) => {
+      const unit = priceCache[`${item.product_id}:${customerId}`] ?? 0;
+      const qty = Number(item.quantity) || 0;
+      return sum + unit * qty;
+    }, 0);
+    const discount = Number(discountValue) || 0;
+    const finalPrice = Math.max(0, subtotal - discount);
+    form.setValue("final_price", finalPrice, { shouldValidate: true });
+  }, [selectedProducts, customerIdValue, discountValue, priceCache, form]);
 
   const addProduct = () => {
     const newProducts = [...selectedProducts, { product_id: 0, quantity: 0 }];
@@ -99,7 +139,30 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
           <FormItem>
             <FormLabelWithHelp htmlFor="final_price" label="Preço Final" helpText={help.finalPrice} />
             <FormControl>
-              <MoneyInput id="final_price" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
+              <MoneyInput
+                id="final_price"
+                value={field.value}
+                onChange={field.onChange}
+                onBlur={field.onBlur}
+                readOnly
+              />
+            </FormControl>
+            <p className="text-xs text-muted-foreground">
+              Calculado automaticamente a partir dos produtos e do desconto.
+            </p>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="discount"
+        control={form.control}
+        name="discount"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="discount" label="Desconto" helpText={help.discount} optional />
+            <FormControl>
+              <MoneyInput id="discount" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
             </FormControl>
             <FormMessage />
           </FormItem>

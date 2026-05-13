@@ -351,6 +351,7 @@ export const Edit = ({ nameModal, rowData, idRowData, typeRegister }: ModalEditP
         return {
           ...defaults,
           order_id: defaults?.order?.id,
+          discount: defaults?.discount ?? 0,
           date: defaults?.date ? new Date(defaults.date) : new Date()
         };
       case "MaterialOrder":

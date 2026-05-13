@@ -323,6 +323,7 @@ export const formOrderSchema = z.object({
   final_price: z.number({ coerce: true }).positive({
     message: "Informe o faturamento."
   }),
+  discount: z.number({ coerce: true }).min(0, { message: "O desconto não pode ser negativo." }).optional().default(0),
   date: z.date({ required_error: "Informe a data." }),
   customer_id: z.number({ coerce: true }).positive({
     message: "Informe o Id do cliente."
