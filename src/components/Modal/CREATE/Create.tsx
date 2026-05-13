@@ -150,7 +150,15 @@ type FormData = z.infer<typeof formCustomerSchema> |
   z.infer<typeof formSalesForecastSchema> |
   z.infer<typeof formExpenseSchema>;
 
+const REGISTER_VERB_TYPES = new Set<TypeRegister>(["MaterialOrder"]);
+
+const getActionVerbs = (typeRegister: TypeRegister) =>
+  REGISTER_VERB_TYPES.has(typeRegister)
+    ? { trigger: "Registrar", progressive: "Registrando", action: "Registrar" }
+    : { trigger: "Criar", progressive: "Criando", action: "Criar" };
+
 export const Create: React.FC<ModalEditProps> = ({ nameModal, typeRegister, rowData, triggerLabel }) => {
+  const verbs = getActionVerbs(typeRegister);
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
   const [open, setOpen] = useState(false);
@@ -415,13 +423,13 @@ export const Create: React.FC<ModalEditProps> = ({ nameModal, typeRegister, rowD
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="default">{triggerLabel ?? `Criar ${nameModal}`}</Button>
+        <Button variant="default">{triggerLabel ?? `${verbs.trigger} ${nameModal}`}</Button>
       </DialogTrigger>
       <Form {...form}>
         <DialogContent className="min-w-full min-h-full">
           <form onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
-              <DialogTitle>Criando {nameModal}</DialogTitle>
+              <DialogTitle>{`${verbs.progressive} ${nameModal}`}</DialogTitle>
             </DialogHeader>
             <div className="pt-4 grid grid-cols-3 gap-4">{formFields1}</div>
             <DialogFooter className="absolute bottom-0 right-0 p-10">
@@ -431,10 +439,10 @@ export const Create: React.FC<ModalEditProps> = ({ nameModal, typeRegister, rowD
               {isLoading ? (
                 <Button disabled>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Criando...
+                  {`${verbs.progressive}...`}
                 </Button>
               ) : (
-                <Button type="submit">Criar</Button>
+                <Button type="submit">{verbs.action}</Button>
               )}
             </DialogFooter>
           </form>
