@@ -513,7 +513,9 @@ export const formLabelPrintSchema = z.object({
 });
 
 export const formExpenseSchema = z.object({
-  amount: z.string().min(1, { message: "Informe o valor da despesa." }),
+  amount: z
+    .number({ coerce: true, invalid_type_error: "Informe o valor da despesa." })
+    .positive({ message: "Informe o valor da despesa." }),
   classification: z.string().optional(),
   description: z.string().optional(),
   justification: z.string().min(1, { message: "Informe a justificativa." }),

@@ -5,6 +5,7 @@ import React, { useState, useEffect } from "react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
@@ -43,22 +44,22 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
 
   useEffect(() => {
     const fetchProducts = async () => {
-        try {
-            const resp = await axios.get("/api/products");
-            setProducts(resp.data.data);
-        } catch (err) {
-            console.error(err);
-        }
+      try {
+        const resp = await axios.get("/api/products");
+        setProducts(resp.data.data);
+      } catch (err) {
+        console.error(err);
+      }
     };
     fetchProducts();
   }, []);
 
   useEffect(() => {
-    form.setValue('products', selectedProducts);
+    form.setValue("products", selectedProducts);
   }, [selectedProducts, form]);
 
   useEffect(() => {
-    const currentProducts = form.getValues('products');
+    const currentProducts = form.getValues("products");
     if (currentProducts?.length) {
       setSelectedProducts(currentProducts);
     }
@@ -71,75 +72,67 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
   const addProduct = () => {
     const newProducts = [...selectedProducts, { product_id: 0, quantity: 0 }];
     setSelectedProducts(newProducts);
-    form.setValue('products', newProducts);
+    form.setValue("products", newProducts);
   };
   const removeProduct = (index: number, field: string, value: number) => {
     const newProducts = selectedProducts.filter((_, i) => i !== index);
     setSelectedProducts(newProducts);
-    form.setValue('products', newProducts);
+    form.setValue("products", newProducts);
   };
   const updateProduct = (index: number, field: string, value: any) => {
     const updatedProducts = [...selectedProducts];
-    updatedProducts[index] = { 
-      ...updatedProducts[index], 
-      [field]: field === 'product_id' ? Number(value) : value
+    updatedProducts[index] = {
+      ...updatedProducts[index],
+      [field]: field === "product_id" ? Number(value) : value
     };
     setSelectedProducts(updatedProducts);
-    form.setValue('products', updatedProducts);
+    form.setValue("products", updatedProducts);
   };
 
   return (
     <>
-        <FormField
-            key="final_price"
-            control={form.control}
-            name="final_price"
-            render={({ field }) => (
-            <FormItem>
-                <FormLabelWithHelp htmlFor="final_price" label="Preço Final" helpText={help.finalPrice} />
+      <FormField
+        key="final_price"
+        control={form.control}
+        name="final_price"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabelWithHelp htmlFor="final_price" label="Preço Final" helpText={help.finalPrice} />
+            <FormControl>
+              <MoneyInput id="final_price" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
+        key="date"
+        control={form.control}
+        name="date"
+        render={({ field }) => (
+          <FormItem className="flex flex-col justify-between">
+            <FormLabelWithHelp htmlFor="date" label="Data do Pedido" helpText={help.date} />
+            <Popover>
+              <PopoverTrigger asChild>
                 <FormControl>
-                    <div className="relative ml-auto flex-1">
-                    <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                    <Input
-                        id="final_price"
-                        type="number"
-                        {...field}
-                        className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                    />
-                    </div>
+                  <Button
+                    variant={"outline"}
+                    className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
+                  >
+                    {field.value ? format(field.value, "PPP") : <span>Escolha uma data</span>}
+                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                  </Button>
                 </FormControl>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-        <FormField
-            key="date"
-            control={form.control}
-            name="date"
-            render={({ field }) => (
-            <FormItem className="flex flex-col justify-between">
-                <FormLabelWithHelp htmlFor="date" label="Data do Pedido" helpText={help.date} />
-                <Popover>
-                <PopoverTrigger asChild>
-                    <FormControl>
-                    <Button
-                        variant={"outline"}
-                        className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}
-                    >
-                        {field.value ? format(field.value, "PPP") : <span>Escolha uma data</span>}
-                        <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                    </Button>
-                    </FormControl>
-                </PopoverTrigger>
-                <PopoverContent className="w-auto p-0" align="start">
-                    <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
-                </PopoverContent>
-                </Popover>
-                <FormMessage />
-            </FormItem>
-            )}
-        />
-        <FormField
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                <Calendar mode="single" selected={field.value} onSelect={field.onChange} initialFocus />
+              </PopoverContent>
+            </Popover>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+      <FormField
         key="customer_id"
         control={form.control}
         name="customer_id"
@@ -177,46 +170,51 @@ export const FormFieldsOrder: React.FC<FormFieldsOrder> = ({ form }) => {
                   </Button>
                 </div>
                 <div className="max-h-[200px] overflow-y-auto space-y-4">
-                {selectedProducts.map((product, index) => (
-                  <div key={index} className="flex items-center space-x-4">
-                    <Select
-                      value={product.product_id.toString()}
-                      onValueChange={(value) => {
-                        updateProduct(index, "product_id", parseInt(value));
-                        field.onChange(selectedProducts);
-                      }}
-                    >
-                      <SelectTrigger className="w-48">
-                        <SelectValue placeholder="Selecione um produto" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {products.map((p) => (
-                          <SelectItem key={p.id} value={p.id.toString()}>
-                            {p.name}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <Input
-                      type="number"
-                      value={product.quantity}
-                      onChange={(e) => {
-                        updateProduct(index, "quantity", parseInt(e.target.value));
-                        field.onChange(selectedProducts);
-                      }}
-                      className="w-20"
-                      placeholder="Qtd."
-                    />
-                    <Button type="button" onClick={() => removeProduct(index, 'product_id', selectedProducts[index].product_id)} variant="destructive">
-                      Remover
-                    </Button>
-                  </div>
-                ))}
+                  {selectedProducts.map((product, index) => (
+                    <div key={index} className="flex items-center space-x-4">
+                      <Select
+                        value={product.product_id.toString()}
+                        onValueChange={(value) => {
+                          updateProduct(index, "product_id", parseInt(value));
+                          field.onChange(selectedProducts);
+                        }}
+                      >
+                        <SelectTrigger className="w-48">
+                          <SelectValue placeholder="Selecione um produto" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {products.map((p) => (
+                            <SelectItem key={p.id} value={p.id.toString()}>
+                              {p.name}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                      <Input
+                        type="number"
+                        value={product.quantity}
+                        onChange={(e) => {
+                          updateProduct(index, "quantity", parseInt(e.target.value));
+                          field.onChange(selectedProducts);
+                        }}
+                        className="w-20"
+                        placeholder="Qtd."
+                      />
+                      <Button
+                        type="button"
+                        onClick={() => removeProduct(index, "product_id", selectedProducts[index].product_id)}
+                        variant="destructive"
+                      >
+                        Remover
+                      </Button>
+                    </div>
+                  ))}
                 </div>
               </div>
             </FormItem>
-           )}
-        />)}
-      </>
+          )}
+        />
+      )}
+    </>
   );
 };

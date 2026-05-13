@@ -5,6 +5,7 @@ import React from "react";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { UseFormReturn } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { CalendarIcon } from "lucide-react";
@@ -34,16 +35,7 @@ export const FormFieldsExpense: React.FC<FormFieldsExpense> = ({ form }) => {
             <FormItem>
               <FormLabelWithHelp htmlFor="amount" label="Valor" helpText={help.amount} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input
-                    id="amount"
-                    type="text"
-                    {...field}
-                    className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                    placeholder="0.00"
-                  />
-                </div>
+                <MoneyInput id="amount" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -156,10 +148,7 @@ export const FormFieldsExpense: React.FC<FormFieldsExpense> = ({ form }) => {
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
             </FormControl>
             <div className="space-y-1 leading-none">
               <FormLabelWithHelp label="Requer Reembolso" helpText={help.requiresReimbursement} />
@@ -175,10 +164,7 @@ export const FormFieldsExpense: React.FC<FormFieldsExpense> = ({ form }) => {
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
             </FormControl>
             <div className="space-y-1 leading-none">
               <FormLabelWithHelp label="Aplica a Todos os Produtos" helpText={help.appliesAllProducts} />
@@ -194,10 +180,7 @@ export const FormFieldsExpense: React.FC<FormFieldsExpense> = ({ form }) => {
         render={({ field }) => (
           <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
             <FormControl>
-              <Checkbox
-                checked={field.value}
-                onCheckedChange={field.onChange}
-              />
+              <Checkbox checked={field.value} onCheckedChange={field.onChange} />
             </FormControl>
             <div className="space-y-1 leading-none">
               <FormLabelWithHelp label="Aplica a Todas as Máquinas" helpText={help.appliesAllMachines} />
@@ -208,4 +191,3 @@ export const FormFieldsExpense: React.FC<FormFieldsExpense> = ({ form }) => {
     </>
   );
 };
-

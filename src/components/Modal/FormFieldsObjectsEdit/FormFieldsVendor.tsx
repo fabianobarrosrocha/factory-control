@@ -5,6 +5,7 @@ import React from "react";
 import axios from "axios";
 import { withMask } from "use-mask-input";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Status } from "@/types/common.types";
 import { Vendor } from "@/types/vendor.types";
 import { UseFormReturn } from "react-hook-form";
@@ -172,15 +173,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
             <FormItem>
               <FormLabelWithHelp htmlFor="invoicing" label="Faturamento" helpText={help.invoicing} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input
-                    id="invoicing"
-                    type="number"
-                    {...field}
-                    className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                  />
-                </div>
+                <MoneyInput id="invoicing" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -196,15 +189,7 @@ export const FormFieldsVendor: React.FC<FormFieldsVendor> = ({ form, rowData }) 
             <FormItem>
               <FormLabelWithHelp htmlFor="purchases" label="Compras" helpText={help.purchases} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input
-                    id="purchases"
-                    type="number"
-                    {...field}
-                    className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                  />
-                </div>
+                <MoneyInput id="purchases" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>

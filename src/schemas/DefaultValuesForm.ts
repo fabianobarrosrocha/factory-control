@@ -220,7 +220,7 @@ export const labelPrintDefaultValues = {
 };
 
 export const expenseDefaultValues = {
-  amount: "",
+  amount: undefined,
   classification: undefined,
   description: undefined,
   justification: "",

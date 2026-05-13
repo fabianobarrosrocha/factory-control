@@ -3,6 +3,7 @@
 import React from "react";
 
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Status } from "@/types/common.types";
 import { UseFormReturn } from "react-hook-form";
 import { Textarea } from "@/components/ui/textarea";
@@ -105,7 +106,11 @@ export const FormFieldsProduct: React.FC<FormFieldsProduct> = ({ form }) => {
         render={({ field }) => {
           return (
             <FormItem>
-              <FormLabelWithHelp htmlFor="volume_sales" label="Número do volume de vendas" helpText={help.volumeSales} />
+              <FormLabelWithHelp
+                htmlFor="volume_sales"
+                label="Número do volume de vendas"
+                helpText={help.volumeSales}
+              />
               <FormControl>
                 <Input
                   id="volume_sales"
@@ -131,15 +136,7 @@ export const FormFieldsProduct: React.FC<FormFieldsProduct> = ({ form }) => {
             <FormItem>
               <FormLabelWithHelp htmlFor="invoicing" label="Faturamento" helpText={help.invoicing} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input
-                    id="invoicing"
-                    type="number"
-                    {...field}
-                    className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                  />
-                </div>
+                <MoneyInput id="invoicing" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>

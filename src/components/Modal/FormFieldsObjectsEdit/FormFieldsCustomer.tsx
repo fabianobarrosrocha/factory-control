@@ -5,6 +5,7 @@ import React from "react";
 import axios from "axios";
 import { withMask } from "use-mask-input";
 import { Input } from "@/components/ui/input";
+import { MoneyInput } from "@/components/ui/money-input";
 import { Status } from "@/types/common.types";
 import { UseFormReturn } from "react-hook-form";
 import { Customer } from "@/types/customer.types";
@@ -145,15 +146,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
             <FormItem>
               <FormLabelWithHelp htmlFor="credit_limit" label="Limite de Crédito" helpText={help.credit_limit} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input
-                    id="credit_limit"
-                    type="number"
-                    {...field}
-                    className="w-full rounded-lg bg-background pl-8 pt-2.5"
-                  />
-                </div>
+                <MoneyInput id="credit_limit" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -169,10 +162,7 @@ export const FormFieldsCustomer: React.FC<FormFieldsCustomer> = ({ form, rowData
             <FormItem>
               <FormLabelWithHelp htmlFor="debts" label="Débitos" helpText={help.debts} />
               <FormControl>
-                <div className="relative ml-auto flex-1">
-                  <span className="absolute left-2.5 top-2 h-4 w-4 text-muted-foreground">R$</span>
-                  <Input id="debts" type="number" {...field} className="w-full rounded-lg bg-background pl-8 pt-2.5" />
-                </div>
+                <MoneyInput id="debts" value={field.value} onChange={field.onChange} onBlur={field.onBlur} />
               </FormControl>
               <FormMessage />
             </FormItem>
