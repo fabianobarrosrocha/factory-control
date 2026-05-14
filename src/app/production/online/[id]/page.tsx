@@ -11,6 +11,7 @@ import { Location } from "@/types/location.types";
 import { Machine } from "@/types/machine.types";
 import { Stock } from "@/types/stock.types";
 import { Button } from "@/components/ui/button";
+import { getProductLabel } from "@/utils/product-label";
 import {
   ArrowLeft,
   Cog,
@@ -265,7 +266,7 @@ export default function LocationDetailPage() {
                                 <div className="flex flex-wrap gap-2">
                                   {production.order.products.slice(0, 3).map((item, idx) => (
                                     <Badge key={idx} variant="outline" className="text-xs">
-                                      {item.product?.name || "Produto"} ({item.quantity}x)
+                                      {item.product ? getProductLabel(item.product as any) : "Produto"} ({item.quantity}x)
                                     </Badge>
                                   ))}
                                   {production.order.products.length > 3 && (
@@ -411,14 +412,14 @@ export default function LocationDetailPage() {
                                 <div className="flex items-center gap-2">
                                   <Package className="w-4 h-4 text-purple-600" />
                                   <span className="font-medium truncate">
-                                    {stock.product?.name || `Produto #${stock.product_id}`}
+                                    {stock.product ? getProductLabel(stock.product as any) : `Produto #${stock.product_id}`}
                                   </span>
                                 </div>
                                 <ExternalLink className="w-4 h-4 text-gray-400 flex-shrink-0" />
                               </div>
-                              {stock.product?.model && (
+                              {stock.product?.sku && (
                                 <div className="text-sm text-gray-500 mb-2">
-                                  Modelo: {stock.product.model}
+                                  SKU: {stock.product.sku}
                                 </div>
                               )}
                               <div className="text-2xl font-bold text-purple-600">

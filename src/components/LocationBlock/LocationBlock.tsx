@@ -5,6 +5,7 @@ import { Machine } from "@/types/machine.types";
 import { Stock } from "@/types/stock.types";
 import { Location } from "@/types/location.types";
 import { Cog, Package, Box, Move, Palette } from "lucide-react";
+import { getProductLabel } from "@/utils/product-label";
 import {
   Tooltip,
   TooltipContent,
@@ -368,7 +369,7 @@ export const LocationBlock: React.FC<LocationBlockProps> = ({
                 ) : (
                   location.stocks?.map((stock) => (
                     <p key={stock.id}>
-                      {stock.product?.name || `Produto ${stock.product_id}`}: {stock.amount}
+                      {stock.product ? getProductLabel(stock.product as any) : `Produto ${stock.product_id}`}: {stock.amount}
                     </p>
                   ))
                 )}

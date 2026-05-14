@@ -13,6 +13,7 @@ import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Stock } from "@/types/stock.types";
 import DynamicTable from "@/components/DynamicTable";
+import { getProductFullLabel } from "@/utils/product-label";
 import { DataRow, TableColumn } from "@/models/TableColumn";
 import {
   DropdownMenu,
@@ -61,11 +62,11 @@ export default function Page() {
     },
     {
       header: "Produto",
-      accessorKey: "product.name",
-      sortable: true,
+      accessorKey: "product",
+      sortable: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
         const stock = row.original as Stock;
-        return stock.product?.name ?? "-";
+        return stock.product ? getProductFullLabel(stock.product as any) : "-";
       }
     },
     {

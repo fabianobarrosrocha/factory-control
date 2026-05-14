@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
 import { Stock } from "@/types/stock.types";
+import { getProductFullLabel } from "@/utils/product-label";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [stock, setStock] = useState<Stock>();
@@ -51,7 +52,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     </CardTitle>
                     <CardDescription>
                       <div className="text-xs text-muted-foreground">
-                        Produto: {stock.product?.name}
+                        Produto: {stock.product ? getProductFullLabel(stock.product as any) : "—"}
                       </div>
                     </CardDescription>
                   </div>
@@ -89,7 +90,7 @@ export default function Page({ params }: { params: { id: string } }) {
                     <div className="grid grid-cols-2 gap-4 text-sm text-muted-foreground">
                       <div>Quantidade: {stock.amount}</div>
                       <div>Local: {stock.location?.name || "Não definido"}</div>
-                      <div>Produto: {stock.product?.name}</div>
+                      <div>Produto: {stock.product ? getProductFullLabel(stock.product as any) : "—"}</div>
                     </div>
                   </div>
                   <Separator className="my-4" />

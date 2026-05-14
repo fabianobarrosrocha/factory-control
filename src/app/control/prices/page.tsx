@@ -22,6 +22,7 @@ import {
 
 import Header from "@/components/Header";
 import type { Price } from "@/types/price.types";
+import { getProductFullLabel } from "@/utils/product-label";
 
 export default function Page() {
   const [data, setData] = useState<Price[]>([]);
@@ -52,7 +53,10 @@ export default function Page() {
     },
     {
       header: "Produto",
-      accessorKey: "product.name"
+      accessorKey: "product",
+      cell: ({ row }: { row: Row<Price> }) => (
+        <span>{row.original.product ? getProductFullLabel(row.original.product as any) : "-"}</span>
+      )
     },
     {
       header: "Custo de Produção",

@@ -13,6 +13,8 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import { MoreVertical } from "lucide-react";
 import Modal from "@/components/Modal/Modal";
 import { SalesForecast, SalesForecastStatusLabel } from "@/types/sales-forecast.types";
+import { PRODUCT_TYPE_LABELS } from "@/types/product.types";
+import { getProductFullLabel, getProductSku } from "@/utils/product-label";
 
 export default function Page({ params }: { params: { id: string } }) {
   const [salesForecast, setSalesForecast] = useState<SalesForecast | undefined>();
@@ -56,7 +58,10 @@ export default function Page({ params }: { params: { id: string } }) {
                     <div className="grid gap-0.5">
                       <CardTitle className="group flex items-center gap-2 text-lg">Previsão #{salesForecast.id}</CardTitle>
                       <CardDescription>
-                        <div className="text-xs text-muted-foreground">Cliente: {salesForecast.customer?.name} · Produto: {salesForecast.product?.name}</div>
+                        <div className="text-xs text-muted-foreground">
+                          Cliente: {salesForecast.customer?.name} · Produto:{" "}
+                          {salesForecast.product ? getProductFullLabel(salesForecast.product as any) : "-"}
+                        </div>
                       </CardDescription>
                     </div>
                     <div className="ml-auto flex items-center gap-1">
@@ -131,11 +136,17 @@ export default function Page({ params }: { params: { id: string } }) {
                       <DataList
                         items={[
                           { title: "ID", data: String(salesForecast.product?.id ?? "-") },
-                          { title: "Nome", data: salesForecast.product?.name ?? "-" },
-                          { title: "Modelo", data: salesForecast.product?.model ?? "-" },
-                          { title: "Tamanho", data: salesForecast.product?.size ?? "-" },
-                          { title: "Caractere", data: salesForecast.product?.character ?? "-" },
-                          { title: "Moldes", data: salesForecast.product?.moldes !== undefined ? String(salesForecast.product?.moldes) : "-" },
+                          { title: "SKU", data: salesForecast.product ? getProductSku(salesForecast.product as any) : "-" },
+                          {
+                            title: "Tipo",
+                            data: salesForecast.product?.type
+                              ? PRODUCT_TYPE_LABELS[salesForecast.product.type] ?? salesForecast.product.type
+                              : "-"
+                          },
+                          { title: "Cor interna", data: salesForecast.product?.inner_color?.name ?? "-" },
+                          { title: "Espuma", data: salesForecast.product?.foam?.name ?? "-" },
+                          { title: "Cor externa", data: salesForecast.product?.outer_color?.name ?? "-" },
+                          { title: "Molde", data: salesForecast.product?.mold?.name ?? "-" }
                         ]}
                       />
                     </div>

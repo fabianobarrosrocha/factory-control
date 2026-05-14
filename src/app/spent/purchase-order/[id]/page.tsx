@@ -11,6 +11,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Row, ColumnDef } from "@tanstack/react-table";
 import DynamicTable from "@/components/DynamicTable";
 import { TableColumn } from "@/models/TableColumn";
+import { getProductFullLabel } from "@/utils/product-label";
 import { 
   PurchaseForecastSummary, 
   MaterialForecast, 
@@ -73,7 +74,11 @@ function MaterialsTable({ materials }: { materials: MaterialForecast[] }) {
   const columns: ColumnDef<MaterialForecast>[] = [
     {
       header: "Produto",
-      accessorKey: "material_order.product.name"
+      accessorKey: "material_order.product",
+      cell: ({ row }) => {
+        const product = row.original.material_order?.product;
+        return product ? getProductFullLabel(product as any) : "-";
+      }
     },
     {
       header: "Estoque Atual",
@@ -240,7 +245,9 @@ export default function Page({ params }: { params: { id: string } }) {
                           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                             <div>
                               <div className="font-semibold text-lg">
-                                {forecast.material_order.product.name}
+                                {forecast.material_order?.product
+                                  ? getProductFullLabel(forecast.material_order.product as any)
+                                  : "-"}
                               </div>
                               <div className="text-sm text-muted-foreground">
                                 ID: {forecast.material_order.product.id}

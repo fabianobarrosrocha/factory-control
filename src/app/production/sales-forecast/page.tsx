@@ -58,8 +58,8 @@ export default function Page() {
     },
     {
       header: "Produto",
-      accessorKey: "product.name",
-      sortable: true,
+      accessorKey: "product",
+      sortable: false,
       cell: ({ row }: { row: Row<DataRow> }) => {
         const product = (row.original as SalesForecast).product;
         return product ? getProductLabel(product as any) : "-";
