@@ -26,6 +26,35 @@ interface FormFieldsOrderProps {
 
 const help = fieldHelpTexts.order;
 
+/**
+ * Busca o preço registrado para um produto. Se customerId for fornecido,
+ * tenta o preço específico do cliente; em caso de 404, faz fallback para
+ * o preço padrão (sem cliente). Retorna null se nada for encontrado.
+ */
+const fetchRegisteredPrice = async (
+  productId: number,
+  customerId?: number
+): Promise<number | null> => {
+  const tryFetch = async (url: string): Promise<number | null> => {
+    try {
+      const resp = await axios.get(url);
+      // service retorna { data: Price } com final_price; aceita resp.data.data ou resp.data flat
+      const price = resp.data?.data ?? resp.data;
+      const finalPrice = Number(price?.final_price ?? 0);
+      return finalPrice > 0 ? finalPrice : null;
+    } catch {
+      return null;
+    }
+  };
+
+  if (customerId && customerId > 0) {
+    const customerSpecific = await tryFetch(`/api/prices/product/${productId}/customer/${customerId}`);
+    if (customerSpecific) return customerSpecific;
+  }
+  // Fallback para preço padrão (sem cliente)
+  return tryFetch(`/api/prices/product/${productId}`);
+};
+
 export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
   const [products, setProducts] = useState<Product[]>([]);
   const [items, setItems] = useState<OrderItem[]>([]);
@@ -72,20 +101,15 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
 
   // Quando cliente muda, refazer fetch de preço para os produtos já adicionados
   useEffect(() => {
-    const customerId = Number(customerIdValue);
-    if (!customerId || items.length === 0) return;
+    if (items.length === 0) return;
+    const customerId = Number(customerIdValue) || undefined;
     let cancelled = false;
     const refetch = async () => {
       const updated = await Promise.all(
         items.map(async (it) => {
           if (!it.product_id) return it;
-          try {
-            const resp = await axios.get(`/api/prices/product/${it.product_id}/customer/${customerId}`);
-            const reg = Number(resp.data?.final_price ?? 0);
-            return { ...it, registered_price: reg || null, unit_price: reg || it.unit_price };
-          } catch {
-            return { ...it, registered_price: null };
-          }
+          const reg = await fetchRegisteredPrice(it.product_id, customerId);
+          return { ...it, registered_price: reg, unit_price: reg ?? it.unit_price };
         })
       );
       if (!cancelled) setItems(updated);
@@ -106,19 +130,16 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
   };
 
   const updateProduct = async (index: number, patch: Partial<OrderItem>) => {
-    const customerId = Number(customerIdValue);
+    const customerId = Number(customerIdValue) || undefined;
     let next: OrderItem = { ...items[index], ...patch };
 
-    if (patch.product_id !== undefined && patch.product_id !== items[index].product_id && customerId > 0) {
-      try {
-        const resp = await axios.get(`/api/prices/product/${patch.product_id}/customer/${customerId}`);
-        const reg = Number(resp.data?.final_price ?? 0);
-        next = { ...next, registered_price: reg || null, unit_price: reg || 0 };
-      } catch {
-        next = { ...next, registered_price: null, unit_price: 0 };
-      }
+    // Ao trocar de produto, busca o preço registrado (padrão ou específico do cliente)
+    if (patch.product_id !== undefined && patch.product_id !== items[index].product_id) {
+      const reg = await fetchRegisteredPrice(patch.product_id, customerId);
+      next = { ...next, registered_price: reg, unit_price: reg ?? 0 };
     }
 
+    // Restrição: unit_price não pode passar do registered_price
     if (patch.unit_price !== undefined && next.registered_price && next.registered_price > 0) {
       if (Number(patch.unit_price) > next.registered_price) {
         next.unit_price = next.registered_price;
