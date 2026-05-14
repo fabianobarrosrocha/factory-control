@@ -139,13 +139,6 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
       next = { ...next, registered_price: reg, unit_price: reg ?? 0 };
     }
 
-    // Restrição: unit_price não pode passar do registered_price
-    if (patch.unit_price !== undefined && next.registered_price && next.registered_price > 0) {
-      if (Number(patch.unit_price) > next.registered_price) {
-        next.unit_price = next.registered_price;
-      }
-    }
-
     setItems((curr) => curr.map((it, i) => (i === index ? next : it)));
   };
 
@@ -286,10 +279,10 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
                   />
                   {item.registered_price ? (
                     <p className="text-[11px] text-muted-foreground mt-1">
-                      Registrado: R$ {Number(item.registered_price).toFixed(2)} (máximo)
+                      Registrado: R$ {Number(item.registered_price).toFixed(2)}
                     </p>
-                  ) : Number(customerIdValue) > 0 && item.product_id ? (
-                    <p className="text-[11px] text-muted-foreground mt-1">Sem preço registrado para este cliente.</p>
+                  ) : item.product_id ? (
+                    <p className="text-[11px] text-muted-foreground mt-1">Sem preço registrado para este produto.</p>
                   ) : null}
                 </div>
                 <div className="col-span-1 flex justify-end">
