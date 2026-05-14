@@ -351,7 +351,7 @@ export const formTimeConfigurationSchema = z.object({
 
 export const formOrderSchema = z.object({
   final_price: z.number({ coerce: true }).min(0),
-  discount: z.number({ coerce: true }).min(0).optional().default(0),
+  discount: z.number({ coerce: true }).optional().default(0),
   date: z.date({ required_error: "Informe a data." }),
   customer_id: z.number({ coerce: true }).positive({
     message: "Informe o Id do cliente."

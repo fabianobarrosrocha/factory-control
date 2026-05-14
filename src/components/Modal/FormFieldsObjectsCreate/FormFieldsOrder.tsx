@@ -92,8 +92,10 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
     const totalDiscount = items.reduce((s, it) => {
       const reg = Number(it.registered_price) || 0;
       const unit = Number(it.unit_price) || 0;
-      if (reg > unit) return s + (reg - unit) * (Number(it.quantity) || 0);
-      return s;
+      // Sem preço registrado: item não contribui (diferença = 0)
+      if (!reg) return s;
+      // Diferença com sinal: positivo = desconto; negativo = acréscimo
+      return s + (reg - unit) * (Number(it.quantity) || 0);
     }, 0);
     form.setValue("final_price", subtotal, { shouldValidate: true });
     form.setValue("discount", totalDiscount, { shouldValidate: true });
@@ -170,7 +172,7 @@ export const FormFieldsOrder: React.FC<FormFieldsOrderProps> = ({ form }) => {
               <MoneyInput id="discount" value={field.value} onChange={() => {}} readOnly />
             </FormControl>
             <p className="text-xs text-muted-foreground">
-              Soma das diferenças (preço registrado − preço cobrado) × quantidade.
+              Soma das diferenças (preço registrado − preço cobrado) × quantidade. Negativo indica acréscimo.
             </p>
             <FormMessage />
           </FormItem>
